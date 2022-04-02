@@ -243,8 +243,10 @@ Etenkin tuo tehtävä Never roll your own crypto? oli mukava, koska siinä verkk
 3. OpenVPN ohjeistus: https://help.hackthebox.com/en/articles/5185687-introduction-to-lab-access  
     1. OpenVPN on jo Kali Linuxissa asennettuna.
     2. HackTheBoxin sivuilta valitsin oikeasta yläkulmasta CONNECT TO HTB ja Starting Point tehtävät. Valitsin pudotusvalikoista EU palvelimen ja latasin OpenVPN asetustiedoston.  
-    3. Navigoin komentoriviltä kansioon Downloads ja ajoin komennon `sudo openvpn *tiedostonimi.ovpn*`
-      <img src="Screenshots/htbConnected.png"> 
+    3. Navigoin komentoriviltä kansioon Downloads ja ajoin komennon `sudo openvpn *tiedostonimi.ovpn*`  
+      
+      <img src="Screenshots/htbOpenVPNSuccess.png"> 
+        
     4. Testasin, että pääsen aloittamaan tehtävien teon.  
 
 ## h) Vapaaehtoinen: Korkkaa jokin käytössä oleva kone HackTheBoxista (non-retired machine).  
