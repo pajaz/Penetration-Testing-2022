@@ -1,6 +1,6 @@
 # h1 Vuohi, tappoketju ja pimeän verkon päiväkirjat  
   
-Part of Penetration Testing ICT4TN027-3007 course of Haaga-Helia University of Applied Sciences held by Tero Karvinen. Course is held in Finnish.  
+Part of Penetration Testing ICT4TN027-3007 course of Haaga-Helia University of Applied Sciences held by Tero Karvinen. Course is in Finnish.  
   
 Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-spring/
   
@@ -25,10 +25,23 @@ Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-sprin
       * Mahdollisesti myös tunnistaa vastustajat ja heidän tavoitteensa.
     + Saada vastustajien tavoitteet näyttämään vähemmän tuottoisilta laittamalla heidät jatkuvasti vaihtamaan tai kehittämään menetelmiään ja työkalujaan. 
     
-Lähde: https://lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/LM-White-Paper-Intel-Driven-Defense.pdf  
+  Lähde: https://lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/LM-White-Paper-Intel-Driven-Defense.pdf  
    
-* Darknet Diaries podcast, vapaavalintainen jakso. Voi kuunnella myös lenkillä, pyykiä viikatessa tms. Siisti koti / kesäkunto kaupan päälle.     
+* [Darknet Diaries EP33: Rock You](https://darknetdiaries.com/episode/33/)    
+  - Jakso kertoo 2009 tapahtuneesta tietomurrosta joka muutti yleisen suhtautumisen salasanojen turvallisuuteen.  
+  - Murroista kertoneen bloginsa nimimerkillä igigi yhä tunnettu hakkeri murtautui SQL injektion avulla Rockyou.com sivustolle ja sai käsiinsä 32 miljoonan käyttäjän käyttäjätiedot, salasanat cleartext muodossa, sekä lisäksi palveluun linkitettyjen sosiaalisen median tilien kirjautumistiedot. 
+  - Rockyoun salasanasuoja oli jopa 2009 ajalle erittäin heikkoa (min. 5 merkkiä, ei erikoismerkkejä) ja SQL syötteitä ei ollut siistitty. Yhtiö myös peitteli murtoa käyttäjiltään korjaustenkin jälkeen, kunnes se sai yhteydenottoja aiheesta medialta.  
+  - Yhtiö kärsi tappioita oikeudessa sekä yksityishenkilöiden ryhmäkanteiden, että liittovaltion viranomaisten kanssa. Aiheutuneet maksut eivät olleet järisyttävän suuria, mutta herättivät varmasti useat firmat ajatukseen, että tietomurron kohdekin voi joutua maksumieheksi.    
+  - Rockyou pysyi kuitenkin jotenkuten hengissä aina vuoteen 2019 jolloin se hakeutui konkurssiin.  
+  - igigi julkaisi salasanalistan verkkoon ilman muita käyttäjätietoja. Listalta selvisi mm. että 5000 yleisintä salasanaa käyttämällä voitaisiin murtaa 20% kaikista tileistä. Kyseinen lista oli yksi sekä hyökkääjien, että puolustajien käytetyimmistä listoista vuosien ajan. Se tulee yhä mukana, mm. Kali Linuxin wordlists kansiossa.
+    ```
+    ┌──(pajazzo㉿kali)-[~]
+    └─$ sudo ls /usr/share/wordlists/                                                           
+    dirb  dirbuster  fasttrack.txt  fern-wifi  metasploit  nmap.lst  rockyou.txt.gz  wfuzz
+    ```
   
+  Lähde: https://darknetdiaries.com/episode/33/
+
 Tee ja raportoi:  
   
 ## a) ja g) Ratkaise [Over The Wire: Bandit](https://overthewire.org/wargames/bandit/) kymmenen ensimmäistä tasoa (0-10).  
