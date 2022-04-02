@@ -154,7 +154,7 @@ https://www.kali.org/get-kali/#kali-virtual-machines
 
     <img src="Screenshots/vboxNetwork.png">  
   
-5. Kun asetukset kunnossa, valitsin Start ja huomasin, että kaikkihan toimii mainiosti.  D
+5. Kun asetukset kunnossa, valitsin Start ja huomasin, että kaikkihan toimii mainiosti.  
   <img src="Screenshots/vboxKaliGood.png">  
 
 6. Avasin heti aluksi terminaali-istunnon ja loin uuden käyttäjän itselleni jolle määritin vahvan salasanan.
@@ -220,10 +220,11 @@ Lähde asennukselle: https://terokarvinen.com/2020/install-webgoat-web-pentest-p
   - HTTP Basics  
 
   <img src="Screenshots/webgoatHTTPBasics.png">  
+    
   Magic number löytyi Developer Tools > Network > File: attack2 Response välilehdeltä (FireFox selaimella).  
   
   - Developer tools  
-
+  
   <img src="Screenshots/webgoatDevtools.png">  
     
   Tehtävän ratkaisussa ei ole juuri selitettävää, koska tehtävä ratkaistiin tekemällä kohta kohdalta ohjeistuksen mukaan.  
