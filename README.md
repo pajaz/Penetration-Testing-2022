@@ -7,4 +7,4 @@ Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-sprin
 ## Homework Links  
 Lesson | Description
 ---|---
-[Lesson 01](Lesson01.md) | Vuohi, tappoketju ja pimeän verkon päiväkirjat  
+[Lesson 01](Homework/Lesson01.md) | Vuohi, tappoketju ja pimeän verkon päiväkirjat  
