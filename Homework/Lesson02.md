@@ -1,5 +1,9 @@
 # h2 turbo boosted
 
+Part of Penetration Testing ICT4TN027-3007 course of Haaga-Helia University of Applied Sciences held by Tero Karvinen. Course is in Finnish.  
+  
+Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-spring/
+
 Tunkeutumistekniikoita saa harjoitella vain annettuihin harjoitusmaaleihin.
 Tarkista kohteiden osoitteet huolella, ja irrota tarvittaessa tietokoneet
 Internetistä. Oppitunneilla ja kurssin säännöissä on annettu tarkempia ohjeita.
