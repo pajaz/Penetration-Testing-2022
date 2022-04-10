@@ -197,8 +197,12 @@ Sijoitetaan:
 
 Onnistui.  
   
-<img src="Screenshots/webgoatSQl1-11.png">  
+<img src="Screenshots/webgoatSQL1-11.png">  
   
+12.  
+  
+13.   
+
 ## c) Nyrkkeilysäkki. Asenna Metasploitable 2 samaan verkkoon Kalin kanssa. Katso, ettei haavoittuva Metasploitable 2 näy Internetiin.
   
 1. Asennustiedoston lataus ja purku.  
