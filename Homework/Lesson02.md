@@ -199,7 +199,8 @@ Onnistui.
   
 <img src="Screenshots/webgoatSQL1-11.png">  
   
-**Osat 12. ja 13. lisätty 11.4.2022** 
+**Osat 12. ja 13. lisätty 11.4.2022**   
+  
 12. Integrity (Get a payraise)
 This one was a pretty straight forward after understanding the syntax in the previous.  
 As we need to change some data in the database I will use the UPDATE and SET commands to achieve my goals.  
