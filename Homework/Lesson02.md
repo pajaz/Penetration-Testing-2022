@@ -199,15 +199,49 @@ Onnistui.
   
 <img src="Screenshots/webgoatSQL1-11.png">  
   
-12.  
+**Osat 12. ja 13. lisätty 11.4.2022** 
+12. Integrity (Get a payraise)
+This one was a pretty straight forward after understanding the syntax in the previous.  
+As we need to change some data in the database I will use the UPDATE and SET commands to achieve my goals.  
+So the original query again:  
+`"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "';`  
   
-13.   
+Input  
+```
+Name: Fairy  
+TAN: Godmother'; UPDATE employees SET salary=99000 WHERE auth_tan='3SL99A  
+```
+
+The query being sent to the server would look like this:  
+`SELECT * FROM employees WHERE last_name = 'Fairy' AND auth_tan = 'Godmother'; UPDATE employees SET salary=99000 WHERE auth_tan='3SL99A'`  
+  
+A big payraise for John Smith **succesful**.  
+    
+13. Availabity (Cover the trail)
+So the goal is to wipe out the access_log table.    
+I'm going to assume this will achieved by using DROP TABLE access_log.  
+Once again, first I just wanted to test the form so I just clicked search and was met with a record of my illegal actions. Not cool.  
+The SQL query is probably something like this:  
+`SELECT * FROM access_log WHERE action = '" + action + "';`
+  
+So let's see:  
+Action contains: `test'; DROP TABLE access_log`  
+So the query would be:  
+`SELECT * FROM access_log WHERE action = 'test'; DROP TABLE access_log ';`    
+Did not really think this would work and it didn't but wanted to see what happens for educational purposes. 
+We seem to have a trailing quotation mark in the SQL query sent to the server.  
+  
+Let's comment the quote out:  
+Action contains: `'; DROP TABLE access_log --`  
+`SELECT * FROM access_log WHERE action = ''; DROP TABLE access_log -- ''`  
+
+We have **succesfully** covered our trail.  
 
 ## c) Nyrkkeilysäkki. Asenna Metasploitable 2 samaan verkkoon Kalin kanssa. Katso, ettei haavoittuva Metasploitable 2 näy Internetiin.
   
 1. Asennustiedoston lataus ja purku.  
-  Latasin Metasploitable 2 zip -pakatun tiedoston osoitteesta: https://sourceforge.net/projects/metasploitable/files/latest/download  
-  Purin paketin sisällön:  
+    Latasin Metasploitable 2 zip -pakatun tiedoston osoitteesta: https://sourceforge.net/projects/metasploitable/files/latest/download  
+    Purin paketin sisällön:  
     ```
     pajazzo@derpface:$ unzip Downloads/metasploitable-linux-2.0.0.zip -d ~/Tools/
     Archive:  Downloads/metasploitable-linux-2.0.0.zip
@@ -219,60 +253,59 @@ Onnistui.
       inflating: /home/pajazzo/Tools/Metasploitable2-Linux/Metasploitable.vmxf 
     ```
 3. Metasploitable 2 asennus VirtualBoxiin.  
-  Avasin Virtualboxin ja valitsin New vaihtoehdon uuden virtuaalikoneen luomiseksi. Tein seuraavat asetukset ja loin uuden koneen Create painikkeella:   
-    * Name: Metasploitable2  
-    * Type: Linux   
-    * Version: Ubuntu (32-bit)  
-        - Tämä voi toimia muillakin vaihtoehdoilla, mutta tällä olen itse saanut Metasploitablen pyörimään aiemmin.  
-    * Use an existing virtual hard disk file: Metasploitable.vmdk  
-        - Tähän tulee valita siis kyseinen .vmdk -tiedosto edellisessä kohdassa purkamistasi tiedostoista.  
-  Muut asetukset voivat jäädä oletusarvoiksi.  
+    Avasin Virtualboxin ja valitsin New vaihtoehdon uuden virtuaalikoneen luomiseksi. Tein seuraavat asetukset ja loin uuden koneen Create painikkeella:   
+      * Name: Metasploitable2  
+      * Type: Linux   
+      * Version: Ubuntu (32-bit)  
+          - Tämä voi toimia muillakin vaihtoehdoilla, mutta tällä olen itse saanut Metasploitablen pyörimään aiemmin.  
+      * Use an existing virtual hard disk file: Metasploitable.vmdk  
+          - Tähän tulee valita siis kyseinen .vmdk -tiedosto edellisessä kohdassa purkamistasi tiedostoista.  
+    Muut asetukset voivat jäädä oletusarvoiksi.  
+      
+      <img src="Screenshots/metasploitableCreation.png" alt="Metasploitable2 VirtualBox settings">  
     
-    <img src="Screenshots/metasploitableCreation.png" alt="Metasploitable2 VirtualBox settings">  
-  
-    Virtuaalikone ilmestyi VirtualBoxin konelistalla.  
+      Virtuaalikone ilmestyi VirtualBoxin konelistalla.  
   
 4. Verkkoasetukset  
-  
-  Koska Metasploitable2 on erittäin haavoittuvaksi rakennettu tietokone, on tärkeää varmistua, ettei se pääse ottamaan yhteyttä oikeaan Internetiin. Tässä osassa liitän koneen aiemmin luomaani VirtualBoxin paikalliseen verkkoon.  
-    * Ohjeet verkon luomiseen edeltävän kurssin [sivuiltani](https://github.com/pajaz/DataSecurityCourse2022/blob/main/Homework/Lesson4.md#a-my-networks-add-a-new-vboxnet-internal-network-to-your-virtualbox-file-host-network-manager) (englanniksi)  
-     
-  Seuraavaksi avasin Metasploitable2 virtuaalikoneen asetukset Settings -kuvakkeen kautta ja aukeavasta ikkunasta valikon Network.  
-  Tein seuraavat säädöt ja valitsin OK:  
-  <img src="Screenshots/metasploitable2Network.png" alt="Metasploitable2 Network settings">  
+    Koska Metasploitable2 on erittäin haavoittuvaksi rakennettu tietokone, on tärkeää varmistua, ettei se pääse ottamaan yhteyttä oikeaan Internetiin. Tässä osassa liitän koneen aiemmin luomaani VirtualBoxin paikalliseen verkkoon.  
+      * Ohjeet verkon luomiseen edeltävän kurssin [sivuiltani](https://github.com/pajaz/DataSecurityCourse2022/blob/main/Homework/Lesson4.md#a-my-networks-add-a-new-vboxnet-internal-network-to-your-virtualbox-file-host-network-manager) (englanniksi)  
+      
+    Seuraavaksi avasin Metasploitable2 virtuaalikoneen asetukset Settings -kuvakkeen kautta ja aukeavasta ikkunasta valikon Network.  
+    Tein seuraavat säädöt ja valitsin OK:  
+    <img src="Screenshots/metasploitable2Network.png" alt="Metasploitable2 Network settings">  
 
 5. Metasploitable käyntiin ja verkon tarkistus.  
   
-  Käynnistin luomani Metasploitable2 virtuaalikoneen Start painikkeesta ja kirjauduin sisään oletustunnuksilla:  
-    * Käyttäjätunnus: msfadmin  
-    * Salasana: msfadmin    
-  Kirjautuminen onnistui.  
-  Ensin tarkistin, ettei Metasploitable ole oikeassa Internetissä yrittämällä ottaa curl sovelluksella yhteyden googleen ja sitten katsoin itselleni ylös Metasploitable koneen IP-osoitteen testailua varten:  
-    <img src="Screenshots/metasploitable2ip.png" alt="Metasploitable 2 Ip addresses">  
-  
-  Kone ei saanyt yhteyttä verkkoon. Tein saman testin vielä parilla eri sivulla ja tulos oli vastaava.    
-  IP-osoite on 192.168.56.8.  
+    Käynnistin luomani Metasploitable2 virtuaalikoneen Start painikkeesta ja kirjauduin sisään oletustunnuksilla:  
+      * Käyttäjätunnus: msfadmin  
+      * Salasana: msfadmin    
+    Kirjautuminen onnistui.  
+    Ensin tarkistin, ettei Metasploitable ole oikeassa Internetissä yrittämällä ottaa curl sovelluksella yhteyden googleen ja sitten katsoin itselleni ylös Metasploitable koneen IP-osoitteen testailua varten:  
+      <img src="Screenshots/metasploitable2ip.png" alt="Metasploitable 2 Ip addresses">  
+    
+    Kone ei saanyt yhteyttä verkkoon. Tein saman testin vielä parilla eri sivulla ja tulos oli vastaava.    
+    IP-osoite on 192.168.56.8.  
   
 6. Varmistetaan, että Kali Linux virtuaalikoneeni on samassa verkkossa.  
 
-  Tein Kali -virtuaalikoneelleni tämän tehtävän kohdan 4 asetukset ja käynnistin koneen.  
-  Myöskään Kali asennukseni ei saa yhteyttä verkkosivuille kuten kuulukin tässä vaiheessa.  
-  Testasin pingata Metasploitable virtuaalikonetta:  
-  ```
-  ┌──(pajazzo㉿kali)-[~]
-  └─$ ping 192.168.56.8
-  PING 192.168.56.8 (192.168.56.8) 56(84) bytes of data.
-  64 bytes from 192.168.56.8: icmp_seq=1 ttl=64 time=1.06 ms
-  64 bytes from 192.168.56.8: icmp_seq=2 ttl=64 time=1.01 ms
-  64 bytes from 192.168.56.8: icmp_seq=3 ttl=64 time=0.987 ms
-  64 bytes from 192.168.56.8: icmp_seq=4 ttl=64 time=1.03 ms
-  64 bytes from 192.168.56.8: icmp_seq=5 ttl=64 time=0.982 ms
-  ^C
-  --- 192.168.56.8 ping statistics ---
-  5 packets transmitted, 5 received, 0% packet loss, time 4002ms
-  rtt min/avg/max/mdev = 0.982/1.013/1.060/0.029 ms
-  ```
-  Näyttäisi toimivan ja koneet ovat siis samassa verkossa.  
+    Tein Kali -virtuaalikoneelleni tämän tehtävän kohdan 4 asetukset ja käynnistin koneen.  
+    Myöskään Kali asennukseni ei saa yhteyttä verkkosivuille kuten kuulukin tässä vaiheessa.  
+    Testasin pingata Metasploitable virtuaalikonetta:  
+    ```
+    ┌──(pajazzo㉿kali)-[~]
+    └─$ ping 192.168.56.8
+    PING 192.168.56.8 (192.168.56.8) 56(84) bytes of data.
+    64 bytes from 192.168.56.8: icmp_seq=1 ttl=64 time=1.06 ms
+    64 bytes from 192.168.56.8: icmp_seq=2 ttl=64 time=1.01 ms
+    64 bytes from 192.168.56.8: icmp_seq=3 ttl=64 time=0.987 ms
+    64 bytes from 192.168.56.8: icmp_seq=4 ttl=64 time=1.03 ms
+    64 bytes from 192.168.56.8: icmp_seq=5 ttl=64 time=0.982 ms
+    ^C
+    --- 192.168.56.8 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 4002ms
+    rtt min/avg/max/mdev = 0.982/1.013/1.060/0.029 ms
+    ```
+    Näyttäisi toimivan ja koneet ovat siis samassa verkossa.  
 
 
 ## d) Nauhalle. Nauhoita kaikki konsolissa annetut asiat ja näkyvät tulosteet koko tehtävästä. (esim script)  
