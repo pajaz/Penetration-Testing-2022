@@ -202,6 +202,7 @@ Onnistui.
 **Osat 12. ja 13. lisätty 11.4.2022**   
   
 12. Integrity (Get a payraise)
+  
 This one was a pretty straight forward after understanding the syntax in the previous.  
 As we need to change some data in the database I will use the UPDATE and SET commands to achieve my goals.  
 So the original query again:  
@@ -218,7 +219,8 @@ The query being sent to the server would look like this:
   
 A big payraise for John Smith **succesful**.  
     
-13. Availabity (Cover the trail)
+13. Availabity (Cover the trail)  
+  
 So the goal is to wipe out the access_log table.    
 I'm going to assume this will achieved by using DROP TABLE access_log.  
 Once again, first I just wanted to test the form so I just clicked search and was met with a record of my illegal actions. Not cool.  
