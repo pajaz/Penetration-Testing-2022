@@ -220,11 +220,11 @@ Onnistui.
     ```
 3. Metasploitable 2 asennus VirtualBoxiin.  
   Avasin Virtualboxin ja valitsin New vaihtoehdon uuden virtuaalikoneen luomiseksi. Tein seuraavat asetukset ja loin uuden koneen Create painikkeella:   
-    * Name: Metasploitable2
-    * Type: Linux  
-    * Version: Ubuntu (32-bit)
+    * Name: Metasploitable2  
+    * Type: Linux   
+    * Version: Ubuntu (32-bit)  
         - Tämä voi toimia muillakin vaihtoehdoilla, mutta tällä olen itse saanut Metasploitablen pyörimään aiemmin.  
-    * Use an existing virtual hard disk file: Metasploitable.vmdk
+    * Use an existing virtual hard disk file: Metasploitable.vmdk  
         - Tähän tulee valita siis kyseinen .vmdk -tiedosto edellisessä kohdassa purkamistasi tiedostoista.  
   Muut asetukset voivat jäädä oletusarvoiksi.  
     
@@ -232,22 +232,24 @@ Onnistui.
   
     Virtuaalikone ilmestyi VirtualBoxin konelistalla.  
   
-4. Verkkoasetukset
+4. Verkkoasetukset  
+  
   Koska Metasploitable2 on erittäin haavoittuvaksi rakennettu tietokone, on tärkeää varmistua, ettei se pääse ottamaan yhteyttä oikeaan Internetiin. Tässä osassa liitän koneen aiemmin luomaani VirtualBoxin paikalliseen verkkoon.  
-    * Ohjeet verkon luomiseen edeltävän kurssin [sivuiltani](https://github.com/pajaz/DataSecurityCourse2022/blob/main/Homework/Lesson4.md#a-my-networks-add-a-new-vboxnet-internal-network-to-your-virtualbox-file-host-network-manager) (englanniksi)
+    * Ohjeet verkon luomiseen edeltävän kurssin [sivuiltani](https://github.com/pajaz/DataSecurityCourse2022/blob/main/Homework/Lesson4.md#a-my-networks-add-a-new-vboxnet-internal-network-to-your-virtualbox-file-host-network-manager) (englanniksi)  
+     
   Seuraavaksi avasin Metasploitable2 virtuaalikoneen asetukset Settings -kuvakkeen kautta ja aukeavasta ikkunasta valikon Network.  
   Tein seuraavat säädöt ja valitsin OK:  
   <img src="Screenshots/metasploitable2Network.png" alt="Metasploitable2 Network settings">  
 
 5. Metasploitable käyntiin ja verkon tarkistus.  
   
-  Käynnistin luomani Metasploitable2 virtuaalikoneen Start painikkeesta ja kirjauduin sisään oletustunnuksilla:
-    * Käyttäjätunnus: msfadmin
-    * Salasana: msfadmin   
+  Käynnistin luomani Metasploitable2 virtuaalikoneen Start painikkeesta ja kirjauduin sisään oletustunnuksilla:  
+    * Käyttäjätunnus: msfadmin  
+    * Salasana: msfadmin    
   Kirjautuminen onnistui.  
   Ensin tarkistin, ettei Metasploitable ole oikeassa Internetissä yrittämällä ottaa curl sovelluksella yhteyden googleen ja sitten katsoin itselleni ylös Metasploitable koneen IP-osoitteen testailua varten:  
     <img src="Screenshots/metasploitable2ip.png" alt="Metasploitable 2 Ip addresses">  
-
+  
   Kone ei saanyt yhteyttä verkkoon. Tein saman testin vielä parilla eri sivulla ja tulos oli vastaava.    
   IP-osoite on 192.168.56.8.  
   
@@ -351,11 +353,11 @@ Tarkistin ensin mistä verkosta lähdetään hakemaan tietokoneita ip a (a = add
        valid_lft forever preferred_lft forever
 ```
   
-Oman tietokoneeni paikallinen IP-osoite on `inet 192.168.56.5` ja sen subnet mask `/24` eli 255.255.255.0. Verkkoon mahtuu siis 255 laitetta tällä  konfiguraatiolla. Lähde: https://docs.netgate.com/pfsense/en/latest/network/cidr.html 
+Oman tietokoneeni paikallinen IP-osoite on `inet 192.168.56.5` ja sen subnet mask `/24` eli 255.255.255.0. Verkkoon mahtuu siis 255 laitetta tällä  konfiguraatiolla. Lähde: https://docs.netgate.com/pfsense/en/latest/network/cidr.html  
   
 En ymmärrä ensimmäistä ohjetta uskottavista osoitteista.  
  
-Lähdin hakemaan kaikkia verkossa olevia koneita [näiden](https://lindevs.com/find-all-devices-connected-to-local-network-using-nmap/) ohjeiden mukaan komennolla sudo nmap -sn 192.168.56.0/24 (käsittääkseni sudo nmap -sn 192.168.56.1-255 ajaisi saman asian): 
+Lähdin hakemaan kaikkia verkossa olevia koneita [näiden](https://lindevs.com/find-all-devices-connected-to-local-network-using-nmap/) ohjeiden mukaan komennolla sudo nmap -sn 192.168.56.0/24 (käsittääkseni sudo nmap -sn 192.168.56.1-255 ajaisi saman asian):  
 ```
 ┌──(pajazzo㉿kali)-[~]
 └─$ sudo nmap -sn 192.168.56.0/24                                                                                                                                                                                                   
