@@ -368,6 +368,10 @@ Näyttäisi toimivan.
   └─$ ping 8.8.8.8                                                                          
   ping: connect: Network is unreachable
   ```
+
+8.8.8.8 on Googlen DNS-palvelimen osoite. Koska Googlen DNS-palvelu on globaali ja kaikkien käytettävissä joten se on sopiva verkkoyhteyden testaamiseen. (Lisätty 11.4.2022) 
+  
+Lähde: https://www.whatsmydns.net/articles/8-8-8-8.html  
   
 ## f) Piilosilla. Etsi Metasploitable 2 verkkoskannauksella. Tarkista ensin, että osoitteet ovat uskottavia (ipcalc 10.0.0.1/23). Sitten ping sweep (nmap -sn). Analysoi tulokset, eli selitä, mitä mikäkin asia tulosteessa tarkoittaa. Mitä päättelet eri koneista?  
 
