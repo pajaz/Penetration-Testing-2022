@@ -9,4 +9,4 @@ Lesson | Description
 ---|---
 [Lesson 01](Homework/Lesson01.md) | Vuohi, tappoketju ja pimeän verkon päiväkirjat  
 [Lesson 02](Homework/Lesson02.md) | Turbo boosted
-[Lesson 02](Homework/Lesson03.md) | Attaaack!
+[Lesson 03](Homework/Lesson03.md) | Attaaack!
