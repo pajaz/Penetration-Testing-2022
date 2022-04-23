@@ -280,14 +280,14 @@ Tee ja raportoi
 
         Kokeilin seuraavaksi muuttaa secQuestion0 ja secQuestion1 parametrien nimiksi "Something" ja "Else" testi-mielessä, mutta tämäkin epäonnistui.  
 
-        <img src="/home/pajazzo/Projects/Penetration Testing2022/Homework/Screenshots/webgoatBrokenAuth1.png">  
+        <img src="Screenshots/webgoatBrokenAuth1.png">  
           
         Seuraavaksi testasin, mitä tapahtuisi, jos muutan turvakysymysten järjestysnumerot suuremmiksi.  
         Alkuperäinen välityspalvelimen kaappaama paketti:  
-        <img src="/home/pajazzo/Projects/Penetration Testing2022/Homework/Screenshots/webgoatBrokenAuth2Untampered.png">   
+        <img src="Screenshots/webgoatBrokenAuth2Untampered.png">   
 
         Muokattu paketti, joka lähetetään eteenpäin tunnistuspalvelimelle (0->2, 1->3):   
-        <img src="/home/pajazzo/Projects/Penetration Testing2022/Homework/Screenshots/webgoatBrokenAuth2tampered.png">  
+        <img src="Screenshots/webgoatBrokenAuth2tampered.png">  
           
         > "Congrats, you have successfully verified the account without actually verifying it. You can now change your password!"  
 
