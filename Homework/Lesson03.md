@@ -480,9 +480,10 @@ Lähde:
 https://linuxhint.com/use-etc-rc-local-boot/
 Rc scripts on vastuussa eri palveluiden käynnistämisestä ja skriptien ajamisesta koneen startupin yhteydessä. Mikäli ymmärsin oikein moderneissa Linux -jakeluissa system rc.local palvelu ei ole enää käytössä ja pitää erikseen käynnistää, jotta sen saa käyttöön. rc.local on vastuussa sellaisten startup toimintojen ajamisesta joiden ei haluta häiritsevän tärkeitä järjestelmäkomponentteja.  
 
-Demonstraation käyttöjärjestelmä:
-Linux Debian 11 Bullseye  
-  
+Tarkoitus: Pysyvyyden varmistaminen kohdejärjestelmässä  
+Demonstraation käyttöjärjestelmä: Linux Debian 11 Bullseye  
+Pohjavaatimus: Root käyttäjä kohdekoneella  
+
 Tarkistin ensin löytyykö rc.local -tiedostoa:  
 
     $ sudo ls /etc/rc
