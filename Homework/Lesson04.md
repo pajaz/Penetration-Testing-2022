@@ -1,5 +1,9 @@
 # h4 Aktiivista tiedustelua, active recon.
 
+Part of Penetration Testing ICT4TN027-3007 course of Haaga-Helia University of Applied Sciences held by Tero Karvinen. Course is in Finnish.  
+    
+Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-spring/  
+
 Ole huolellinen näiden työkalujen kanssa. Porttiskannereita ja vastaavia ohjelmia saa käyttää vain harjoitusmaaleihin. Liikennettä tulee seurata toisella ohjelmalla (esim snifferi, kaikki verkkokortit on usein "any"). Osoitteiden (esim. IP-numeroiden) kanssa tulee olla tarkkana. Voit käyttää vain sellaisia työkaluja, joiden toiminnan ymmärrät kohtuullisesti. Missään tehtävässä ei tehdä palvelunestohyökkäyksiä, eli älä lähetä kohdekoneille järjetöntä määrää dataa tai pyyntöjä järjettömällä nopeudella. Lue ja tallenna itsellesi HackTheBoxin säännöt ennenkuin aloitat. Kurssin säännöissä ja oppitunnilla on annettu tarkempia ohjeita.
 
 ## z) Lue artikkelit ja katso videot, tee kustakin muistiinpanot (muutama ranskalainen viiva per artikkeli/video). Tässä z-kohdassa ei tarvitse tehdä mitään kokeita koneella.
