@@ -940,7 +940,7 @@ Done.
 Uusi yritys ssh-yhteyden kanssa:
 ```
 ┌──(pajazzo㉿kali)-[~]
-└─$ ssh -oHostKeyAlgorithms=+ssh-dss demon@192.168.56.8                                     
+└─$ ssh -oHostKeyAlrithms=+ssh-dss demon@192.168.56.8                                     
 demon@192.168.56.8's password: 
 Linux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686
 
