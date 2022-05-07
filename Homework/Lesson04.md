@@ -4,12 +4,68 @@ Ole huolellinen näiden työkalujen kanssa. Porttiskannereita ja vastaavia ohjel
 
 ## z) Lue artikkelit ja katso videot, tee kustakin muistiinpanot (muutama ranskalainen viiva per artikkeli/video). Tässä z-kohdassa ei tarvitse tehdä mitään kokeita koneella.
 
-    € Santos et al: The Art of Hacking (Video Collection): [..] 4.3 Surveying Essential Tools for Active Reconnaissance. Sisältää porttiskannauksen. 5 videota, yhteensä noin 20 min.
-    Lyon 2009: Nmap Network Scanning: Chapter 1. Getting Started with Nmap Suoraan hevosen suusta: Gordon Lyon aka Fyodor Vaskovich on kirjoittanut tuon menestyneen kirjan lisäksi nmapin. Kirja maksaa 40 eur, mutta reiluna kaverina Gordon oli laittanut juuri tähän sopivat luvut ilmaiseksi nettiin.
-    Silmäile (ei tarvitse lukea kokonaan, 40 liuskaa pitkä): Lyon 2009: Nmap Network Scanning: Chapter 15. Nmap Reference Guide
-        Port Scanning Basics (opettele, mitä tarkoittavat: open, closed, filtered; muuten vain silmäily)
-        Port Scanning Techniques (opettele, mitä ovat: -sS -sT -sU; muuten vain silmäily)
-    Silmäile (ei tarvitse lukea kokonaan): man nmap
+### € Santos et al: The Art of Hacking (Video Collection): [..] 4.3 Surveying Essential Tools for Active Reconnaissance. Sisältää porttiskannauksen. 5 videota, yhteensä noin 20 min.
+
+- Aktiivisessa tiedustelussa tai "Skannausvaiheessa" tiedot lähetetään itse asiassa kohdeverkkoon.
+- Jos kukaan valvoo, aktiivinen etsintä saattaa laukaista hälytyksiä.
+     - Vinkki: Lisää äänekkyyttä askel askeleelta nähdäksesi, katsooko joku.
+- Aikaherkät tehtävät tarvitsevat perusteellisen luetteloinnin kohteena olevasta verkosta tai tietokoneesta ennen hyökkäämistä, jotta hyökkäys voidaan toteuttaa rauhassa.
+- Tiedustelu auttaa päättämään, mihin järjestelmiin ja palveluihin keskittyä.
+- Menetelmät:
+    - Porttiskannaus:
+        - Varmista, että passiivisessa vaiheessa löydetyt portit ovat todella auki ja etsi uudet avoimet portit.
+            - Työkalut:
+                - nmap (Suosituin, monipuolisin ja vakaa portin skanneri)
+                - Masscan (nopein ja hyvä suurille porttimäärille, ei niin monipuolinen kuin nmap)
+                - Udpprotoscanner (udp-portin skannaukseen)
+        - Verkkopalvelun arvostelu:
+            - Päätä, mitkä mahdollisesti useista verkkosovelluksista priorisoidaan hyökkäyksen aikana.
+            - EyeWitness-työkalu (vierailee jokaisella sen antamalla verkkosivustolla ja palauttaa otsikkotiedot ja kuvakaappaukset jne.)
+        - Haavoittuvuusskannaus:
+            - Yleinen virhe on hypätä suoraan tähän vaiheeseen ilman kunnollista tiedustelua.
+            - Pitäisi olla tiedusteluvaiheen lopussa, koska käytetyt menetelmät ovat usein kovin äänekkäitä.
+            - Työkalut:
+                - Verkkohaavoittuvuusskannerit:
+                    - OPENVAS - ilmainen ja avoin lähdekoodi
+                    - Ammattiympäristöissä maksulliset vaihtoehdot ovat parempia nopeuden ja tehokkuuden kannalta
+                    - Nessus - $$
+                    - Nexpose - $$
+                    - Laatu - $$
+                    - Nmap (rajoitettu)
+                        - SCRIPT SCAN -asetukset (/usr/share/nmap/scripts)
+                            - Täydellinen luettelo ja käyttöopas nmap-verkkosivustolla
+                - Verkkohaavoittuvuusskannerit:
+                    - Nikto
+                        - Suosittu
+                    - WPScan
+                        - Erityisesti WordPress-sivustoille
+                    - SQLMap
+                        - Tietokantojen pentestaus ja SQLInjections
+                    - Burp-suite
+                        - Yksi suosituimmista WVS-työkaluista
+                    - Zed Attack Proxy
+                        - Samanlainen kuin Burp, mutta ilmainen
+
+Lähde: https://learning.oreilly.com/videos/the-art-of/9780135767849/9780135767849-SPTT_04_00
+
+### Lyon 2009: Nmap Network Scanning: Chapter 1. Getting Started with Nmap Suoraan hevosen suusta: Gordon Lyon aka Fyodor Vaskovich on kirjoittanut tuon menestyneen kirjan lisäksi nmapin. Kirja maksaa 40 eur, mutta reiluna kaverina Gordon oli laittanut juuri tähän sopivat luvut ilmaiseksi nettiin.
+
+
+Lähde: https://nmap.org/book/nmap-overview-and-demos.html
+
+### Silmäile (ei tarvitse lukea kokonaan, 40 liuskaa pitkä): Lyon 2009: Nmap Network Scanning: Chapter 15. Nmap Reference Guide. Port Scanning Basics (opettele, mitä tarkoittavat: open, closed, filtered; muuten vain silmäily) .Port Scanning Techniques (opettele, mitä ovat: -sS -sT -sU; muuten vain silmäily)  
+- Vaikka nmap on erittäin monipuolinen työkalu, sen ydintoiminto on silti porttiskannaus.  
+- Yhteyspyyntöjä (TCP, UDP SCTP) hyväksyvää sovellusta kutsutaan avoimeksi (open). Mahdollisesti hyväksikäytettävissä.  
+- Tavoitettavissa, mutta mitään porttia kuuntelevaa palvelua ei tunnisteta kutsutaan suljetuksi (closed). Saattaa olla hyvä idea skannata myöhemmin uudelleen.
+- Suodatetut (filtered) portit ovat niitä, joiden kohdalla nmap ei pystynyt määrittämään suodatettavien pakettien tilaa. Saattaa johtua palomuurista.  Tällaiset portit hidastavat skannausta, koska ne pakottavat nmapin yrittämään uudelleen useita kertoja.
+- Käytettävissä, mutta ei ole varma, onko se auki vai suljettu. Suodattamaton (unfiltered) portti. Tämä luokitus vain ACK-skannauksilla.
+- Open|filtered, kun portti on joko auki tai suodatettu. Näiden porttien tarkistaminen muilla tarkistustyypeillä saattaa ratkaista ongelman.
+- Closed|Filtered, nimensämukaisesti Suljettu tai suodatettu.
+- Termit -sS, -sT ja -sU selitetään tämän dokumentin tehtäväosioissa.  
+
+Lähde:   
+https://nmap.org/book/man.html  
+https://nmap.org/book/man-port-scanning-basics.html  
 
 Tee ja raportoi:
 
