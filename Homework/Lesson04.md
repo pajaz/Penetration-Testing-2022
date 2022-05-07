@@ -203,7 +203,6 @@ Wiresharkin lokeista näkee järjestyksen, jossa nmap tekee skannaustaan:
 
 5. 10-11 ACK ja FIN-ACK paketit edellisen kohdan FTP-palvelun paketille jonka tiedoista löytyy sen LEN-numero ja sarjan seuraava numero (Acknowledgement (ACK) tapahtuu aina käyttämällä tällaisia sarjoja joissa seuraavalla numerolla hyväksytään lähetetty yhteys). FIN-ACK sulkee yhteyden, mutta käsittääkseni järjestyksen harmonisessa sulkemisessa pitäisi olla FIN, FIN-ACK, ACK, joten tämä jää vähän hämäräksi.  
 
-<img src="Screenshots/Lesson04wiresharkM2nmapsV21FTP220len.png">
 <img src="Screenshots/Lesson04wiresharkM2nmapsV21FTP220ack.png">
 
 6. 12-13 FTP palvelu ilmoittaa sisäisestä palvelinvirheestä sekä tiedon, ettei vsf_sysutil_recv_peek palauttanut mitään dataa. En oikein tiedä mistä nämä tiedot tulevat. Esittikö nmap jotain pyyntöjä FTP -palvelulle, ja jos niin missä paketissa? Vai onko tämä vain sisäänrakennettu kohdekoneen FTP -palveluun, että informaatio annetaan, kun TCP yhteys muodostetaan.
