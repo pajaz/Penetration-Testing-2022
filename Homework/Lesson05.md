@@ -108,8 +108,7 @@ En valitettavasti keksi mitään keinoa emonstroida tätä, koska ohjeet joita l
 
 Useissa ohjeissa myös käytetään Windows kohteita, joita minulla ei ole käytössäni.
 
-Yritän vielä huomenna jatkaa. 
-
+Yritän vielä myöhemmin jatkaa.  
 
 ## d) Laksu. Palauta linkkisi sovitusti Laksuun. Arvioi ja anna palautetta kahden (2) kurssikaverin kotitehtävästä. (Vapaaehtoisena bonuksena saat antaa palautetta useammastakin. Tätä d-alakohtaa ei tarvitse raportoida.)
 
