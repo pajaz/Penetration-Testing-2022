@@ -686,6 +686,35 @@ Asennuksen jälkeen liitin sen koneen Settings > Network valikosta Host-Only ada
   
 ## m) Skannaa Vulnhubista hakemasi kone, ja analysoi tulokset.
 
+Valitsin skannaukseksi versioskannauksen (-sV). Tätä ennen tein paikalliseen verkkooni ping sweeping jonka tuloksista sain IP-osoitteen: 172.28.128.7.  
+
+```
+msf6 > db_nmap -sV 172.28.128.7
+[*] Nmap: Starting Nmap 7.92 ( https://nmap.org ) at 2022-05-09 06:53 EDT
+[*] Nmap: 'mass_dns: warning: Unable to determine any DNS servers. Reverse DNS is disabled. Try using --system-dns or specify valid servers with --dns-servers'
+[*] Nmap: Nmap scan report for 172.28.128.7
+[*] Nmap: Host is up (0.00014s latency).
+[*] Nmap: Not shown: 998 closed tcp ports (reset)
+[*] Nmap: PORT   STATE SERVICE VERSION
+[*] Nmap: 22/tcp open  ssh     172.28.128.7
+[*] Nmap: 80/tcp open  http    Apache httpd 2.4.46 ((Ubuntu))
+[*] Nmap: MAC Address: 08:00:27:06:77:D4 (Oracle VirtualBox virtual NIC)
+[*] Nmap: Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+[*] Nmap: Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 6.66 seconds
+```
+
+998 suljettua porttia ja 2 avointa.  
+Portti | Palvelu | Versio | Selitys
+---|---|---|---
+22 | ssh | 172.28.128.7 | SSH-palvelu, mutta tällä skannauksella ei versiosta selvinnyt muuta kuin IP-osoite.
+80 | http | Apache httpd 2.4.46 ((Ubuntu)) | Apache 2 demoni käynnissä, joten todennäköisesti jokin verkkosivu löytyy. Vanha versio uusin Apache/2.4.53.
+
+Kohdekoneella on Linux Ubuntu käyttöjärjestelmä.
+
+Testasin seuraavaksi katsoa, mitä löytyy selaimella osoitteesta 172.28.128.7 ja sieltä löytyy muokkaamaton Apachen default sivu. 
+<img src="Screenshots/Lesson2corrosionApache2page.png">
+
 ## n) Vapaaehtoinen: Murtaudu jollain uudella tavalla Metasploitable 2:n.  
 
 Aloitin tunkeutumisen avaamalla komentoriviltä Kali Linuxin mukana tulleen toolkitin msfconsole josta löytyy useita valmiita exploitteja.  

@@ -12,6 +12,22 @@ Harjoittele vain luvallisiin harjoitusmaaleihin. Irrota tarvittaessa koneet Inte
 
 ### € Jaswal 2020: Mastering Metasploit - 4ed: Chapter 1: Approaching a Penetration Test Using Metasploit (kohdasta "Conducting a penetration test with Metasploit" luvun loppuun)
 
+- use - Valitse käytettävä moduuli
+- show - Näytä vaihtoehdot valitusta optiosta (esim. show payloads)
+- set - Aseta arvo (esim. set RHOSTS)
+- setg - Aseta arvo globaalisti
+- run - 
+- exploit - Aja exploitti
+- back - Palaa alkuun
+
+- info - Tietoja valitusta kohteesta
+- search - Etsi moduulia
+- check - Tarkista onko kohde haavoittuva valitulle moduulille
+- sessions - Lista avoimista sessioista
+
+- Tietokanta helpottaa käyttöä (db_ komennot)
+- Tukee useita työtiloja (workspace)  
+
 ### Vapaavalintainen läpikävely (walktrough) yhdestä murrosta. Voit siis valita yhden läpikävelyn mistä tahansa näistä kanavista tai blogista. Kanavilla on muitakin artikkeleita, valitse tästä läpikävely. Keskity tiivistäessä asioihin, joita voisit itse soveltaa hyökätessä. Tässä on yli 200 h videota, niitä ei tarvitse katsoa kaikkia.
 
 - 0xdf https://0xdf.gitlab.io/

