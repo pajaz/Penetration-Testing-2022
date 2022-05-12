@@ -28,6 +28,8 @@ Harjoittele vain luvallisiin harjoitusmaaleihin. Irrota tarvittaessa koneet Inte
 - Tietokanta helpottaa käyttöä (db_ komennot)
 - Tukee useita työtiloja (workspace)  
 
+Lähde:https://learning.oreilly.com/library/view/mastering-metasploit-/9781838980078/B15076_01_Final_ASB_ePub.xhtml#_idParaDest-30
+
 ### Vapaavalintainen läpikävely (walktrough) yhdestä murrosta. Voit siis valita yhden läpikävelyn mistä tahansa näistä kanavista tai blogista. Kanavilla on muitakin artikkeleita, valitse tästä läpikävely. Keskity tiivistäessä asioihin, joita voisit itse soveltaa hyökätessä. Tässä on yli 200 h videota, niitä ei tarvitse katsoa kaikkia.
 
 - 0xdf https://0xdf.gitlab.io/
@@ -111,8 +113,6 @@ Sweepillä löytyi 3 Virtualbox konetta, joista yksi on oma Kali Linuxini joten 
 ## b) Msf. Murtaudu Metasploitable 3 käyttämällä Metasploittia 'sudo msfconsole'
 
 Tehtävän vastaus [täältä](Scans/L5meta3nmapA.md)  
-  
-Lopputuloksena en saanut kyseistä palvelua korkattua metasploitista löytyvällä exploitilla.  
 
 ## c) Rat. Demonstroi meterpreter:n käyttöä
 
@@ -126,8 +126,6 @@ Useissa ohjeissa myös käytetään Windows kohteita, joita minulla ei ole käyt
 
 Yritän vielä myöhemmin jatkaa.  
 
-## d) Laksu. Palauta linkkisi sovitusti Laksuun. Arvioi ja anna palautetta kahden (2) kurssikaverin kotitehtävästä. (Vapaaehtoisena bonuksena saat antaa palautetta useammastakin. Tätä d-alakohtaa ei tarvitse raportoida.)
+## ~~e) Vapaaehtoinen: ExploitDB offline. Murtaudu johonkin harjoitusmaaliin käyttäen hyökkäystä, jonka etsit 'searchsploit' työkalulla. Valitse sellainen hyökkäys, joka ei tule suoraan Metasploitin mukana.~~
 
-## e) Vapaaehtoinen: ExploitDB offline. Murtaudu johonkin harjoitusmaaliin käyttäen hyökkäystä, jonka etsit 'searchsploit' työkalulla. Valitse sellainen hyökkäys, joka ei tule suoraan Metasploitin mukana.
-
-## Vapaaehtoinen: NSA was here. Kokeile Ghidraa. Voit esimerkiksi kääntää jonkin oikein yksinkertaisen ohjelmasi binääriksi, ja katsoa miltä se näyttää.
+## ~~Vapaaehtoinen: NSA was here. Kokeile Ghidraa. Voit esimerkiksi kääntää jonkin oikein yksinkertaisen ohjelmasi binääriksi, ja katsoa miltä se näyttää.~~

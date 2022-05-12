@@ -7,7 +7,9 @@ Course page: https://terokarvinen.com/2021/penetration-testing-course-2022-sprin
 ## x) Lue/katso/kuuntele ja tiivistä. Tässä alakohdassa ei tarvitse tehdä testejä tietokoneella, vain lukeminen ja tiivistelmä riittää). Tiivistä ranskalaisilla viivoilla.
   
 ### € Percival & Samancioglu 2020: The Complete Ethical Hacking Course (video): Chapter 21: Cross Site Scripting (7 videota, noin 25 min)
-      
+    
+Source: https://learning.oreilly.com/videos/the-complete-ethical/9781839210495/9781839210495-video21_1
+
 * Videossa käytetään DVWA verkkosovelluksen XSS tehtäviä Metasploitable koneella  
 * Haitallinen JavaScript -koodi ajetaan uhrin selaimessa
 * Reflected XSS   

@@ -266,8 +266,6 @@ Etenkin tuo tehtävä Never roll your own crypto? oli mukava, koska siinä verkk
 ## h) Vapaaehtoinen: Korkkaa jokin käytössä oleva kone HackTheBoxista (non-retired machine).  
 <img src="Screenshots/htbMeowPwned.png">
 
-## i) Vapaaehtoinen: Laita linkki kotitehtäviisi sivun kommentiksi. Tarjolla viittauksia ja nousua hakukoneissa.
-
 ### Vinkkejä:
 
 * Tässä tiivistelmään riittää muutama (5-10) ranskalaista viivaa. Kirjoita
