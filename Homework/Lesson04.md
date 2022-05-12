@@ -136,8 +136,6 @@ Porttia 443 skannatessa Three-Way-Handshakessa ei päästy edes kunnolla alkuun.
 Hiljaisempi skannaus kuin TCP connect. Suurimpana erona, on ettei skannaus tee kättelyä loppuun vaan keskeyttää sen, kun kohde on lähettänyt takaisin SYN-ACC pakettinsa. Skannaus siis vain tarkistaa, että portissa on palvelu, joka vastaa pyyntöihin, mutta ei luo itse TCP -yhteyttä.  
 
 
-
-
 ### c) nmap ping sweep -sn 
 
     "This option tells Nmap not to do a port scan after host discovery, and only print out the available hosts that responded to the host discovery probes."
@@ -523,7 +521,7 @@ Kuten tulosteesta huomataan siihen tulleen yksi lisäkolumni, jossa syy portin a
 
 Lähde: https://nmap.org/book/scan-methods-udp-scan.html
 
-### g) Vapaaehtoinen bonuskohta: näytä esimerkki onnistuneesta UDP-skannauksesta, sekä jonkin UDP:n erityisominaisuuden takia epäonnistuneesta tai harhaanjohtavan tuloksen antavasta UDP-skannauksesta.
+### ~~g) Vapaaehtoinen bonuskohta: näytä esimerkki onnistuneesta UDP-skannauksesta, sekä jonkin UDP:n erityisominaisuuden takia epäonnistuneesta tai harhaanjohtavan tuloksen antavasta UDP-skannauksesta.~~ 
 
 Aktiivista tiedustelua. Mihin tämä työkalu on tarkoitettu? Kokeile tätä työkalua omaan harjoitusmaaliin ja selitä tulokset:
 
@@ -640,6 +638,6 @@ We can see from the multiple findings that a lot of them are giving the error co
 
 <img src='Screenshots/lesson4gobusterExampleDVWA.png'>
 
-### k) Vapaaehtoinen: Tiedustele aktiivisesti jokin HackTheBoxin maalikone. Analysoi tulokset, pääpaino on vastauksessa tulkinnoillasi. Sopivia ovat esimerkiksi EyeWitness, nikto, wpscan, gobuster, openvas ja ffuf. Aputyökaluiksi sopii Linuxin komentokehote, grep, pythonpy... Voit valita näistä vain jonkin tai joitakin työkaluja. Seuraa työkalun toimintaa koko ajan snifferillä, ja käytä vain työkaluja, joiden toiminnan ymmärrät kohtuullisesti. HTB:n ratkaisut yhdessä sovitun salasanan taakse, jotta emme spoilaa toisten kilpailua.
+### ~~k) Vapaaehtoinen: Tiedustele aktiivisesti jokin HackTheBoxin maalikone. Analysoi tulokset, pääpaino on vastauksessa tulkinnoillasi. Sopivia ovat esimerkiksi EyeWitness, nikto, wpscan, gobuster, openvas ja ffuf. Aputyökaluiksi sopii Linuxin komentokehote, grep, pythonpy... Voit valita näistä vain jonkin tai joitakin työkaluja. Seuraa työkalun toimintaa koko ajan snifferillä, ja käytä vain työkaluja, joiden toiminnan ymmärrät kohtuullisesti. HTB:n ratkaisut yhdessä sovitun salasanan taakse, jotta emme spoilaa toisten kilpailua.~~
 
-### l) Vapaaehtoinen, haastava: Korkkaa jokin HTB:n kone. Aloita helposta.
+### ~~l) Vapaaehtoinen, haastava: Korkkaa jokin HTB:n kone. Aloita helposta.~~

@@ -255,9 +255,6 @@ Source: https://learning.oreilly.com/videos/the-complete-ethical/9781839210495/9
 
         + Technique: 
 
-* 
-
-* 
 
 ## z) Cross site story. Kirjoita kuvitteellinen esimerkki XSS-hyökkäyksestä. Tee mahdollisimman yksinkertainen esimerkki. Voit vaikkapa ottaa haltuun weppisivun ylläpitäjän oikeudet viemällä keksin. Tässä alakohdassa ei tarvitse tehdä mitään tietokoneella, pelkkä tarina riittää. Tarkoituksena on ymmärtää XSS-hyökkäyksen kokonaisuus ennen sormiharjoituksia. Voi halutessasi myös piirtää itse kaavion / sarjakuvan.
 
