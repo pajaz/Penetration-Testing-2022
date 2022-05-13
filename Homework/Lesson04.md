@@ -54,8 +54,17 @@ Lähde: https://learning.oreilly.com/videos/the-art-of/9780135767849/97801357678
 
 ### Lyon 2009: Nmap Network Scanning: Chapter 1. Getting Started with Nmap Suoraan hevosen suusta: Gordon Lyon aka Fyodor Vaskovich on kirjoittanut tuon menestyneen kirjan lisäksi nmapin. Kirja maksaa 40 eur, mutta reiluna kaverina Gordon oli laittanut juuri tähän sopivat luvut ilmaiseksi nettiin.
 
+**Section added 13th May 2022**
 
-Lähde: https://nmap.org/book/nmap-overview-and-demos.html
+- "The first step in a vulnerability assessment is network discovery"  
+- When conducting penetration testing check the authenticity of customer provided IP-ranges yourself before leaping to action (for example with "whois", reverse DNS-lookups)
+- DNS names might reveal what the device is used for
+- Start the nmap scans as stealthy as possible gradually moving towards louder methods.
+- "Deny-by-default" is a good security policy.
+- If nothing is open to public Internet, you need an access to the internal network which might include physical intrusion or phishing.
+- Keep your own tools up to date  
+
+Source: https://nmap.org/book/nmap-overview-and-demos.html
 
 ### Silmäile (ei tarvitse lukea kokonaan, 40 liuskaa pitkä): Lyon 2009: Nmap Network Scanning: Chapter 15. Nmap Reference Guide. Port Scanning Basics (opettele, mitä tarkoittavat: open, closed, filtered; muuten vain silmäily) .Port Scanning Techniques (opettele, mitä ovat: -sS -sT -sU; muuten vain silmäily)  
 - Vaikka nmap on erittäin monipuolinen työkalu, sen ydintoiminto on silti porttiskannaus.  
