@@ -35,7 +35,16 @@ Lähde:https://learning.oreilly.com/library/view/mastering-metasploit-/978183898
 - ippsec https://www.youtube.com/channel/UCa6eh7gCkpPo5XXUDfygQQA/videos
 - John Hammond https://www.youtube.com/user/RootOfTheNull/videos?sort=p
 
-Muu myöhemmin ilmoitettava lukutehtävä: Jos ensi viikon vierailija pyytää kertaamaan jotain Windowsista (rekisteri, tiedostojärjestelmä, käyttäjät...) tai tietokonerikosten teknisestä tutkinnasta, laitan siitä erikseen sähköpostia
+- HTB: Mischief
+
+Source: https://0xdf.gitlab.io/2019/01/05/htb-mischief.html
+
+Hack The Box Mischief. As described on the site was an "easy" hack but still too much for me to understand most of it.  
+
+- nmap scan that identified snmp service
+- snmp-walk tool to get OID (Object Identifiers) from the server
+- snmp-mibs-downloader to make snmp walk output (OIDs) human-readable
+- Went way too complex for me to understand after the first few steps..
 
 ## a) Emmental. Asenna Metasploitable 3  
 
