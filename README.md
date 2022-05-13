@@ -17,6 +17,5 @@ Lesson | Title | Concepts | Targets | Tools
 
 Lesson | Assingments
 ---|---
-Lesson 3: | Cross Site Scripting story not done</br>second ATT&CK method not demonstrated
 Lesson 4: | Lyon 2009: Nmap Network Scanning: Chapter 1. Getting Started with Nmap not summarized
 Lesson 5: | Walkthrough of optional attack not summarized 
