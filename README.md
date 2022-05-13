@@ -12,3 +12,4 @@ Lesson | Title | Concepts | Targets | Tools
 [Lesson 03](Homework/Lesson03.md) | Attaaack! | -Cross-Site Scripting</br>-Broken Authentication</br>-Sensitive Data Exposure</br>-MITRE 2021: ATT&CK Enterprise Matrix</br>-RC Scripts demo | -WebGoat</br>-Linux Debian 11 | -OWASP ZAP</br>-Bash scripting 
 [Lesson 04](Homework/Lesson04.md) | Aktiivista tiedustelua, active recon. | -Tools for Active Reconnaissance</br>-nmap scans and states</br>-Three-Way Handshake</br>-UDP | -Metasploitable 2 | -nmap</br>-Wireshark</br>-fuff</br>-nikto</br>-wappalyzer</br>-gobuster
 [Lesson 05](Homework/Lesson05.md) | Script Kiddie | -Metasploit for Pentesting | -Metasloitable 3 | -metasploit</br>-nmap</br>-meterpreter 
+[Lesson 06](Homework/Lesson06.md) | Final Countdown | Course recap</br>Hijack Proxy | FoxyProxy</br>mitm

@@ -8,6 +8,52 @@ Palautus sovitusti Laksuun.
 
 ## a) Middle. Muuta hakupyyntöä välimiesproxylla.
 
+Getting to know mitmproxy (sudo apt-get install mitmproxy) and FoxyProxy.
+
+On Kali Linux mitmproxy was already installed. I continued by installing FoxyProxy add-on to FireFox through the 'Add-ons and Themes' section of the settings.  
+
+### FoxyProxy with patterns set up
+
+I clicked on the Fox icon that appeared on the browsers address bar and selected Options and Add from the next page. I decided to make this proxy just for the Metasploitable 2 computer with the following settings:
+
+<img src="Screenshots/foxyProxym2Settings.png">  
+
+The default ip and port for mitm can be found from the official mitm documentation: https://docs.mitmproxy.org/stable/overview-getting-started/
+
+I continued to choose 'Save & Edit Patterns' and added the following pattern to only route Metasploitable 2 traffic through the proxy:  
+
+<img src="Screenshots/foxyProxym2Pattern.png">  
+
+And finally turned on the proxy from the little Fox icon by choosing 'Use Enabled Proxies By Pattern and Order':  
+
+<img src="Screenshots/foxyProxym2switchOn.png">  
+
+### Intercepting traffic
+
+I turned on mitmproxy from the command-line by typing `mitmprxy`, navigated to the site of DVWA (Damn Vulnerable Web Application) running on my Metasploitable 2 instance and logged in. mitmproxy is capturing packages:
+
+<img src="Screenshots/mitmCapture1.png">  
+
+I had Metasploitable 3 open in the same network. Browsed to its IP on Firefox. Page loaded and no packets went through the proxy so all worked as planned.  
+
+### Modifying the packet
+
+I set mitmproxy to intercept all packets from Metasploitable 2:
+```
+set intercept '172.28.128.6'
+```
+
+I browsed to the address 172.28.128.6 on FireFox and a packet was intercepted:
+
+<img src="Screenshots/mitmIntercepterd.png">
+
+I scrolled to the intercepted packet with arrow keys and clicked 'Enter' to see the details, clicked 'e' to edit and chose 'path'. 
+
+<img src="Screenshots/mitmModifying.png">
+
+After that I returned back to the normal view by clicking 'Esc' and 'q'. Then I clicked 'a' to allow packet to go ahead. After releasing few more packages, instead of going to the Metasploitable 2 front page, the DVWA application opened for me.
+
+I noticed afterwards that now, every time I try to go the M2 frontpage it redirects me to the DVWA app. Even after clearing cookies for 172.28.128.6, turning off mitmproxy and FoxyProxy. Only after clearing the cookies and data from the whole browser I was able to get to the front page again.  
 
 
 ## b) Cheatsheet - kerää parhaat kikat, käskyt ja tekniikat omasta ja toisten raporteista. (tässä alakohdassa pelkkä kirjoitus riittää, ei tarvitse testata koneella)  
@@ -114,7 +160,6 @@ Lesson 4 | https://github.com/pajaz/Penetration-Testing-2022/blob/main/Homework/
 Lesson 5 | https://github.com/pajaz/Penetration-Testing-2022/blob/main/Homework/Lesson05.md  
 Lesson 6 | https://github.com/pajaz/Penetration-Testing-2022/blob/main/Homework/Lesson06.md  
 
-## e) Arvioi kaksi. Anna Laksussa palautetta kahdesta kotitehtäväpaketista. (Tätä alakohtaa ei tarvitse raportoida)
 
 ## ~~f) Vapaaehtoinen, Korkki: Jos olet korkannut koneita Challenge.fi:ssa tai HackTheBoxissa, listaa ne tähän. Erottele selkeästi käynnissä olevien kilpailujen (non-retired) koneet vanhoista, joiden ratkaisut on jo julkaistu.~~
 
