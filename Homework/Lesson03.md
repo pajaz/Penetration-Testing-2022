@@ -63,8 +63,7 @@ Source: https://learning.oreilly.com/videos/the-complete-ethical/9781839210495/9
 * A7 Cross Site Scripting
 
     - Haitallisen koodin ajaminen luotettavan näköisen sivuston kautta uhrin selaimessa. Voidaan käyttää mm. istuntoavainten varastamiseen tai uhrin ohjaamiseen haitalliselle sivustolle.  
-    - Heikkouksia:   
-
+ 
 
 
 ### MITRE 2021: ATT&CK Enterprise Matrix. (Selitä tiivistelmässä käsitteet tactic, technique, procedure. Selitä kukin taktiikka (tactic) ja anna kustakin taktiikasta esimerkkitekniikka (technique tai subtechnique).  
@@ -258,17 +257,13 @@ Source: https://learning.oreilly.com/videos/the-complete-ethical/9781839210495/9
 
 ## z) Cross site story. Kirjoita kuvitteellinen esimerkki XSS-hyökkäyksestä. Tee mahdollisimman yksinkertainen esimerkki. Voit vaikkapa ottaa haltuun weppisivun ylläpitäjän oikeudet viemällä keksin. Tässä alakohdassa ei tarvitse tehdä mitään tietokoneella, pelkkä tarina riittää. Tarkoituksena on ymmärtää XSS-hyökkäyksen kokonaisuus ennen sormiharjoituksia. Voi halutessasi myös piirtää itse kaavion / sarjakuvan.
 
-Tee selväksi ja erottele
+I really can't and dislike writing stories. Here's just some explanation of what Cross-site Scripting is. 
 
-    Mitä hyökkääjä tekee
-    Mitä kohdehenkilö tekee
-    Mitä sivua / palvelinta kohdehenkilö surffailee
-    Missä JavaScriptit ajetaan
-    Miten keksi päätyy hyökkääjälle
-    Miten hyökkääjä hyödyntää keksiä?
-    Mitä hyökkääjä pääsee tekemään (mikä ei onnistuisi ilman hyökkäystä)?
-
-Tee ja raportoi
+- Type of injection on an otherwise ok websites that usually utilizes Javascript and possibly HTML
+- Goal is usually to transmit private data, sessin information or perform malicious operations.
+- Stored vs Reflected.
+    - Script is permanently injected onto the target server.
+    - In reflected attacks the delivery method is not directly from the server but through e-mails or infected websites.
 
 ## a) Vuohen uudet seikkailut. Ratkaise WebGoatista tehtävät
 
@@ -473,10 +468,13 @@ Tee ja raportoi
 
 ## b) Attakin alatekniikat. Demonstroi kaksi (2) alatekniikkaa (subtechnique) ATT&CK kehikosta. Tässä pitää siis käyttää näitä käytännössä johonkin harjoitusmaaliin. Voit käyttää haluamiasi valmiita työkaluja tai koodata / skriptata itse. Voit valita valmiin harjoitusmaalin tai tehdä sen itse. Muista, että myös tiedustelussa pitää noudattaa lakia, etiikkaa, rajauksia (scope) ja hyviä tapoja.  
 
-### Boot or Logon Initialization Scripts: RC Scripts 
+### Boot or Logon Initialization Scripts: RC Scripts with Command and Scripting Interpreter: Unix Shell  
 
-Lähde:  
+Lähteet: 
+https://attack.mitre.org/techniques/T1037/004/ 
+https://attack.mitre.org/techniques/T1059/004/
 https://linuxhint.com/use-etc-rc-local-boot/
+
 Rc scripts on vastuussa eri palveluiden käynnistämisestä ja skriptien ajamisesta koneen startupin yhteydessä. Mikäli ymmärsin oikein moderneissa Linux -jakeluissa system rc.local palvelu ei ole enää käytössä ja pitää erikseen käynnistää, jotta sen saa käyttöön. rc.local on vastuussa sellaisten startup toimintojen ajamisesta joiden ei haluta häiritsevän tärkeitä järjestelmäkomponentteja.  
 
 Tarkoitus: Pysyvyyden varmistaminen kohdejärjestelmässä  
