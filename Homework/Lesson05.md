@@ -16,7 +16,6 @@ Harjoittele vain luvallisiin harjoitusmaaleihin. Irrota tarvittaessa koneet Inte
 - show - Näytä vaihtoehdot valitusta optiosta (esim. show payloads)
 - set - Aseta arvo (esim. set RHOSTS)
 - setg - Aseta arvo globaalisti
-- run - 
 - exploit - Aja exploitti
 - back - Palaa alkuun
 

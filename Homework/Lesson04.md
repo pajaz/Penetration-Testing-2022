@@ -257,11 +257,11 @@ Wiresharkin lokeista näkee järjestyksen, jossa nmap tekee skannaustaan:
 3. 6-8 Porttiin 21 kohdistuva TCP -yhteyspyyntö, joka suoritetaan loppuun lähettämällä oma ACK -paketti vastineeksi kohteen lähettämälle SYN-ACK -paketille. Three-Way-Handshake siis suoritetaan loppuun ja TCP-yhteys muodostetaan kohteen ja oman koneen välille.  
 4. 9 Palvelu portissa 21 vastaa koodilla 220 olevansa käynnissä ja valmiina uusiin käyttäjäyhteyksiin (https://support.solarwinds.com/SuccessCenter/s/article/220-FTP-response-code?language=en_US). Tässä kohdassa myös palvelun tarkempi nimi ja versionumero näkyvillä.
 
-<img src="Screenshots/Lesson04wiresharkM2nmapsV21FTP220.png">
+    <img src="Screenshots/Lesson04wiresharkM2nmapsV21FTP220.png">
 
 5. 10-11 ACK ja FIN-ACK paketit edellisen kohdan FTP-palvelun paketille jonka tiedoista löytyy sen LEN-numero ja sarjan seuraava numero (Acknowledgement (ACK) tapahtuu aina käyttämällä tällaisia sarjoja joissa seuraavalla numerolla hyväksytään lähetetty yhteys). FIN-ACK sulkee yhteyden, mutta käsittääkseni järjestyksen harmonisessa sulkemisessa pitäisi olla FIN, FIN-ACK, ACK, joten tämä jää vähän hämäräksi.  
 
-<img src="Screenshots/Lesson04wiresharkM2nmapsV21FTP220ack.png">
+    <img src="Screenshots/Lesson04wiresharkM2nmapsV21FTP220ack.png">
 
 6. 12-13 FTP palvelu ilmoittaa sisäisestä palvelinvirheestä sekä tiedon, ettei vsf_sysutil_recv_peek palauttanut mitään dataa. En oikein tiedä mistä nämä tiedot tulevat. Esittikö nmap jotain pyyntöjä FTP -palvelulle, ja jos niin missä paketissa? Vai onko tämä vain sisäänrakennettu kohdekoneen FTP -palveluun, että informaatio annetaan, kun TCP yhteys muodostetaan.
 
