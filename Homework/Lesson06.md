@@ -47,9 +47,11 @@ I browsed to the address 172.28.128.6 on FireFox and a packet was intercepted:
 
 <img src="Screenshots/mitmIntercepterd.png">
 
-I scrolled to the intercepted packet with arrow keys and clicked 'Enter' to see the details, clicked 'e' to edit and chose 'path'. 
+I scrolled to the intercepted packet with arrow keys and clicked 'Enter' to see the details, clicked 'e' to edit and chose 'path' and added ('a') dvwa to the path ('Esc' stops editing the value). 
 
 <img src="Screenshots/mitmModifying.png">
+
+<img src="Screenshots/mitmModifiedPath.png">
 
 After that I returned back to the normal view by clicking 'Esc' and 'q'. Then I clicked 'a' to allow packet to go ahead. After releasing few more packages, instead of going to the Metasploitable 2 front page, the DVWA application opened for me.
 
